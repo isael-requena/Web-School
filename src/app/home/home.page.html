@@ -1,0 +1,63 @@
+<ion-header class="ion-no-border" [translucent]="true">
+  <ion-toolbar mode="md">
+    <ion-buttons slot="start">
+      <ion-button>
+        <ion-icon slot="icon-only" name="menu-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button class="search-btn">
+        <ion-icon slot="icon-only" name="search"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon slot="icon-only" name="notifications-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div id="container">
+    <section class="main_section">
+        <ion-title class="main_title"> <strong>José Martí <br> Web!</strong> </ion-title>
+        <div class="logo_section">
+          <div class="high_school_badge bg_image"></div>
+          <ion-label class="high_school_info">4to año</ion-label>
+          <ion-label class="high_school_info">Sección "A"</ion-label>
+        </div>
+    </section>
+    <span class="sub-header">Materias</span>
+
+    <!-- categories -->
+    <ion-slides pager="false" [options]="sliderConfig">
+      <ion-slide class="categories" *ngFor="let schoolSubject of schoolSubjects; index as i;">
+        <div class="categories-buttons business">
+          <span class="task-count">
+            12 Tareas
+          </span>
+          <span class="categories-name"> {{schoolSubject?.name}} </span>
+          <ion-progress-bar mode="ios" [value]="schoolSubject?.valueProgress"></ion-progress-bar>
+        </div>
+      </ion-slide>
+    </ion-slides>
+
+    <span class="todays-header">TAREAS PENDIENTES</span>
+    <div class="task-list">
+      <!-- This is where the tasks will go -->
+      <app-task *ngFor="let homework of homeworkList" [title]="homework?.homework_title" [id]="homework?.id_homeworks"></app-task>
+    </div>
+  </div>
+
+  <ion-fab id="trigger-button" vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button mode="ios">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-modal mode="ios" trigger="trigger-button" [isOpen]="false" [breakpoints]="[0.1, 0.5, 1]" [initialBreakpoint]="1">
+    <ng-template>
+      <app-new-task></app-new-task>
+    </ng-template>
+  </ion-modal>
+</ion-content>

@@ -47,9 +47,6 @@
     <div class="task-list">
       <!-- This is where the tasks will go -->
       <app-task *ngFor="let homework of homeworkList" [title]="homework?.homework_title" [id]="homework?.homework_id"></app-task>
-    </div>
-  </div>
-
   <ion-fab id="trigger-button" vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button mode="ios">
       <ion-icon name="add"></ion-icon>
@@ -61,5 +58,4 @@
       <app-new-task></app-new-task>
     </ng-template>
   </ion-modal>
-
 </ion-content>

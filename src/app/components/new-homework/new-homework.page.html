@@ -5,32 +5,41 @@
     </div>
   </ion-toolbar>
 </ion-header>
-<ion-content >
-    <h1 class="main_title">Nueva Tarea</h1>
-    <form novalidate [formGroup]="homeworkForm">
+<ion-content>
+  <h1 class="main_title">Nueva Tarea</h1>
+  <form novalidate [formGroup]="homeworkForm"  (ngSubmit)="submitHomework()">
 
-    <div class="dialog_content animated container" [ngClass]="{'fadeInUp show_visibility': showFirstStep,'fadeOutUp hide_visibility': !showFirstStep}">
-      <input class="input_field" autofocus="true" formControlName="title" placeholder="Escriba el titulo"  #title>
-      <input class="input_field input_little" formControlName="description" placeholder="Escriba el titulo"  #description>
+    <div class="dialog_content animated container"
+      [ngClass]="{'fadeInUp show_visibility': showFirstStep,'fadeOutUp hide_visibility': !showFirstStep}">
+      <input class="input_field" autofocus="true" formControlName="title" placeholder="Escriba el título" #title>
+      <p class="margin_0 color_danger" *ngIf="homeworkForm.get('title')?.errors?.['required'] && (homeworkForm.get('title')?.dirty || homeworkForm.get('title')?.touched)">
+        El título es requerido
+      </p>
+      <input class="input_field input_little" formControlName="description" placeholder="Escriba una descripción"
+        #description>
       <div class="btns_container centered">
         <ion-button class="next_button " (click)="handleNextStep()">
           Siguiente
         </ion-button>
       </div>
     </div>
-    <div class="dialog_content animated container" [ngClass]="{'fadeInUp show_visibility': showSecondStep,'fadeOutUp hide_visibility': !showSecondStep}">
+    <div class="dialog_content animated container h_57 top_14"
+      [ngClass]="{'fadeInUp show_visibility': showSecondStep,'fadeOutUp hide_visibility': !showSecondStep}">
 
-      <ion-label for="school_subject">Escoge una materia</ion-label>
-      <select id="school_subject" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" formControlName="schoolSubject">
+      <!-- <ion-label for="school_subject">Escoge una materia</ion-label>
+      <select id="school_subject" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+        formControlName="schoolSubject">
         <option selected value="ghc">G.H.C.</option>
         <option value="ciencias_de_la_tierra">Ciencias de la tierra</option>
         <option value="ingles">Inglés</option>
         <option value="fpsn">F.P.S.N</option>
-      </select>
-      <input type="date" name="dateofbirth" formControlName="endDate" id="dateofbirth" #endDate>
+      </select> -->
+      <ion-datetime class="date_form_picker" mode="ios" formControlName="endDate" (ionChange)="pickerTest(this.homeworkForm.get('endDate')?.value)">
+        <span slot="title">Seleccione la fecha de entrega</span>
+      </ion-datetime>
       <div class="btns_container space_between">
         <ion-icon class="back_icon" name="arrow-back" (click)="handleBackStep()"></ion-icon>
-        <ion-button class="next_button">
+        <ion-button class="next_button" type="submit" [disabled]="homeworkForm.invalid">
           Enviar tarea &nbsp; <ion-icon name="chevron-up-outline"></ion-icon>
         </ion-button>
       </div>

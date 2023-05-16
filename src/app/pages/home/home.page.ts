@@ -47,7 +47,7 @@ export class HomePage implements OnInit {
   ) {
     try {
 
-      this.homeworkService.getAllHomeworks().then((homeworks: any) => {
+      this.homeworkService.getAllHomeworks().then((homeworks: HomeworkInterface[]) => {
         console.log(homeworks);
         this.homeworkList = homeworks;
       });
@@ -70,6 +70,10 @@ export class HomePage implements OnInit {
 
   closeHomeworkWindow(value: boolean) {
     this.showNewHomeworkComp = value;
+  }
+
+  addHomework(homework: HomeworkInterface) {
+    this.homeworkList.unshift(homework);
   }
 
 }

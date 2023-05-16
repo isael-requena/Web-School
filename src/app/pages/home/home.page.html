@@ -57,7 +57,7 @@
       <ion-modal mode="ios" trigger="trigger-button" [isOpen]="false" [breakpoints]="[0.1, 0.5, 1]"
         [initialBreakpoint]="1">
         <ng-template>
-          <app-new-homework></app-new-homework>
+          <app-new-homework (homeworkEmit)="addHomework($event)"></app-new-homework>
         </ng-template>
       </ion-modal>
     </div>

@@ -152,11 +152,29 @@ input[type="date"] {
     justify-content: space-between;
     align-items: center;
     .next_button {
-      width: 52%;
+      width: 80%;
       --border-radius: 45px;
+      max-width: 290px;
     }
     ion-icon {
       font-size: 1.9rem;
     }
   }
+}
+
+.color_danger {
+  color: var(--ion-color-danger-tint);
+}
+.margin_0 {
+  margin: 0;
+}
+.h_57 {
+  height: 57% !important;
+}
+
+.date_form_picker {
+  margin: auto;
+}
+.top_14 {
+  top: 14%;
 }

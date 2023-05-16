@@ -86,7 +86,7 @@
   --ion-color-light-tint: #f5f6f9;
 }
 
-// @media (prefers-color-scheme: dark) {
+//  @media (prefers-color-scheme: dark) {
 //   /*
 //    * Dark Colors
 //    * -------------------------------------------
@@ -149,12 +149,18 @@
 //     --ion-color-medium-shade: #86888f;
 //     --ion-color-medium-tint: #a2a4ab;
 
-//     --ion-color-light: #222428;
-//     --ion-color-light-rgb: 34, 36, 40;
-//     --ion-color-light-contrast: #ffffff;
-//     --ion-color-light-contrast-rgb: 255, 255, 255;
-//     --ion-color-light-shade: #1e2023;
-//     --ion-color-light-tint: #383a3e;
+//     // --ion-color-light: #222428;
+//     // --ion-color-light-rgb: 34, 36, 40;
+//     // --ion-color-light-contrast: #ffffff;
+//     // --ion-color-light-contrast-rgb: 255, 255, 255;
+//     // --ion-color-light-shade: #1e2023;
+//     // --ion-color-light-tint: #383a3e;
+//     --ion-color-light: #f4f5f8;
+//     --ion-color-light-rgb: 244, 245, 248;
+//     --ion-color-light-contrast: #000000;
+//     --ion-color-light-contrast-rgb: 0, 0, 0;
+//     --ion-color-light-shade: #d7d8da;
+//     --ion-color-light-tint: #f5f6f9;
 
 //     // custom variables
 //     --ion-progressbar: #3f5288;
@@ -163,14 +169,14 @@
 //     --ion-fab-button-background-activated: #c318cf;
 //     --ion-checkmark-background: #163487;
 //     --ion-close-button: #b8c3e9;
-//   }
+//    }
 
-//   /*
-//    * iOS Dark Theme
-//    * -------------------------------------------
-//    */
+// //   /*
+// //    * iOS Dark Theme
+// //    * -------------------------------------------
+// //    */
 
-//   .ios body {
+//  .ios body {
 //     // edited background variable
 //     --ion-background-color: #344fa1;
 //     --ion-background-color-rgb: 0, 0, 0;
@@ -220,14 +226,15 @@
 //     --ion-background-color: var(--ion-card-background);
 //     --ion-toolbar-background: var(--ion-card-background);
 //     --ion-toolbar-border-color: var(--ion-card-background);
-//   }
+//    }
 
-//   /*
-//    * Material Design Dark Theme
-//    * -------------------------------------------
-//    */
+// //   /*
+// //    * Material Design Dark Theme
+// //    * -------------------------------------------
+// //    */
 
-//   .md body {
+//    .md body {
+
 //     // edited variable
 //     --ion-background-color: #344fa1;
 //     --ion-background-color-rgb: 18, 18, 18;
@@ -269,14 +276,13 @@
 
 //     // edited variable
 //     --ion-card-background: #031956;
+//    }
 //   }
-// }
-
-// @media (prefers-color-scheme: light) {
-  /*
-   * Light Colors
-   * -------------------------------------------
-   */
+//  @media (prefers-color-scheme: light) {
+//   /*
+//    * Light Colors
+//    * -------------------------------------------
+//    */
 
   body {
     --ion-color-primary: #428cff;
@@ -335,12 +341,12 @@
     --ion-color-medium-shade: #86888f;
     --ion-color-medium-tint: #a2a4ab;
 
-    --ion-color-light: #222428;
-    --ion-color-light-rgb: 34, 36, 40;
-    --ion-color-light-contrast: #ffffff;
-    --ion-color-light-contrast-rgb: 255, 255, 255;
-    --ion-color-light-shade: #1e2023;
-    --ion-color-light-tint: #383a3e;
+    --ion-color-light: #f4f5f8;
+    --ion-color-light-rgb: 244, 245, 248;
+    --ion-color-light-contrast: #000000;
+    --ion-color-light-contrast-rgb: 0, 0, 0;
+    --ion-color-light-shade: #d7d8da;
+    --ion-color-light-tint: #f5f6f9;
 
     // added variables
     --ion-progressbar: #ebeffe;
@@ -456,4 +462,4 @@
     // modified variable
     --ion-card-background: #fff;
   }
-// }
+

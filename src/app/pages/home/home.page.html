@@ -28,31 +28,43 @@
         <ion-label class="high_school_info">Sección "A"</ion-label>
       </div>
     </section>
-    <span class="sub-header">Materias</span>
+    <span class="sub-header">POR ENTREGAR:</span>
 
-    <!-- categories -->
-    <swiper-container pager="false" space-between="1" slides-per-view="1.7">
-      <swiper-slide class="categories" *ngFor="let schoolSubject of schoolSubjects; index as i;">
+    <!-- homeworks -->
+    <swiper-container class="animated" *ngIf="!showSlideSpinner" pager="false" space-between="1" slides-per-view="1.4"
+      [ngClass]="{'fadeInUp': !showSlideSpinner, 'fadeOut': showSlideSpinner}">
+      <swiper-slide class="categories" *ngFor="let homework of homeworkSlide; index as i;">
         <div class="categories-buttons business">
-          <span class="task-count">
-            12 Tareas
-          </span>
-          <span class="categories-name"> {{schoolSubject?.name}} </span>
-          <ion-progress-bar mode="ios" [value]="schoolSubject?.valueProgress"></ion-progress-bar>
+          <p class="school_subject text_ellipsis">{{filterSchoolSubject(homework)}}</p>
+          <span class="categories-name"> {{homework?.homework_title}} </span>
+          <p class="homework_description">
+            {{homework?.homework_description}}
+          </p>
+          <div class="row_container">
+            <div class="column">
+              {{homework?.homework_start_date | date: 'EEE, d MMMM'}}
+            </div>
+              -
+            <div class="column">
+              {{homework?.homework_end_date | date: 'EEE, d MMMM'}}
+            </div>
+          </div>
         </div>
       </swiper-slide>
     </swiper-container>
+
+    <div *ngIf="showSlideSpinner" class="spinner_container">
+      <ion-spinner name="crescent" color="primary"></ion-spinner>
+    </div>
 
     <span class="todays-header">TAREAS PENDIENTES</span>
     <div class="task-list">
       <!-- This is where the tasks will go -->
       <app-homework *ngFor="let homework of homeworkList" [title]="homework?.homework_title"
-        [id]="homework?.homework_id"></app-homework>
-      <ion-fab id="trigger-button" vertical="bottom" horizontal="end" slot="fixed">
-        <ion-fab-button mode="ios">
+        [id]="homework?.homework_id" [item]="homework" (updateEmit)="getHomeworksList();updateSlides()"></app-homework>
+        <ion-button id="trigger-button" mode="ios">
           <ion-icon name="add"></ion-icon>
-        </ion-fab-button>
-      </ion-fab>
+        </ion-button>
 
       <ion-modal mode="ios" trigger="trigger-button" [isOpen]="false" [breakpoints]="[0.1, 0.5, 1]"
         [initialBreakpoint]="1">

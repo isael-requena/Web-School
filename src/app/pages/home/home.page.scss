@@ -43,7 +43,7 @@ ion-content {
         height: 90px;
         border-radius: 50%;
         margin-bottom: 10px;
-        background-image: url('../../../assets/img/jose_marti_logo.jpg');
+        background-image: url('../../../assets//img/jose_marti_logo.jpg');
       }
       .high_school_info {
         font-size: 14px;
@@ -75,13 +75,16 @@ ion-content {
     color: var(--color);
     font-size: large;
     font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &-buttons {
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 1.8rem 1rem;
+    padding: 1.8rem 1.5rem;
     padding-bottom: 1.1rem;
     margin: 1rem;
     margin-bottom: 1.4rem;
@@ -131,7 +134,51 @@ ion-content {
   padding: 0 1.2rem;
 }
 
-ion-fab {
-  bottom: 40px;
-  right: calc(20px + var(--ion-safe-area-right, 0px));
+ion-button#trigger-button {
+  bottom: 2%;
+  right: 3% !important;
+  position: fixed;
+  --border-radius: 40px;
+  font-size: 17px;
+  width: 60px;
+  height: 60px;
+}
+
+ion-fab#trigger-button {
+  position: sticky;
+  bottom: 2%;
+  display: flex;
+  justify-content: end;
+}
+.row_container {
+  display: flex;
+  font-size: 14px;
+  color: var(--ion-secondary-text-color);
+  justify-content: space-between;
+}
+.homework_description {
+  color: var(--ion-secondary-text-color);
+  font-size: 16px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.spinner_container {
+  height: 223px;
+  display: grid;
+  place-content: center;
+}
+.color_primary {
+  color: var(--ion-color-primary);
+}
+.school_subject {
+  font-size: 16px;
+  font-weight: 100;
+  color: var(--ion-color-secondary);
+}
+.text_ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }

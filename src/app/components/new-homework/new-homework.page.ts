@@ -33,7 +33,6 @@ export class NewHomeworkComponent implements OnInit {
     });
     const today = new Date()
     this.nextWeek.setDate(today.getDate() + 7)
-    console.log(this.nextWeek)
   }
 
   ngOnInit() {
@@ -59,7 +58,6 @@ export class NewHomeworkComponent implements OnInit {
       try {
         this.homeworkForm.get('startDate')?.setValue(this.formatDate(new Date()))
         this.homeworkForm.get('endDate')?.setValue(this.nextWeek);
-        console.log(this.homeworkForm.get('endDate')?.value)
       } catch (error) {
         console.error(error)
       }
@@ -67,8 +65,6 @@ export class NewHomeworkComponent implements OnInit {
 
   public handleNextStep() {
     try {
-      console.log(this.homeworkForm?.get('title')?.value);
-      console.log(this.homeworkForm?.get('description')?.value);
       if (this.homeworkForm?.get('title')?.valid) {
         this.showFirstStep = false;
         this.showSecondStep = true;
@@ -81,17 +77,13 @@ export class NewHomeworkComponent implements OnInit {
   public handleBackStep() {
     this.showSecondStep = false;
     this.showFirstStep = true;
-    console.log(this.homeworkForm?.get('schoolSubject')?.value)
-    console.log(this.endDate.value)
   }
 
   submitHomework() {
     try {
       this.showSpinner = true;
       this.btnSendCounter++;
-      console.log('pressed')
       if (this.btnSendCounter === 1) {
-        console.log('pressed PROCESSED')
 
         const homework: HomeworkInterface = {
           homework_title: this.homeworkForm.get('title')?.value,
@@ -102,7 +94,6 @@ export class NewHomeworkComponent implements OnInit {
           homework_end_date: this.formatDate(this.endDate.value),
           school_subject: this.homeworkForm.get('schoolSubject')?.value
         }
-        console.log(homework)
         this.homeworkService.createHomework(homework).then((Res: HomeworkInterface) => {
           this.showSpinner = false;
           this.homeworkEmit.emit(Res);

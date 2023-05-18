@@ -37,7 +37,6 @@ export class HomeworkComponent implements OnInit {
   public activeDoneEvent() {
     if (this.item) {
       this.item.homework_done = this.item.homework_done ? 0 : 1
-      // console.log(this.item)
       let startValue: any = '' + this.item.homework_start_date
       let endValue: any = '' + this.item.homework_end_date
       const homework: HomeworkInterface = {
@@ -49,9 +48,7 @@ export class HomeworkComponent implements OnInit {
         homework_end_date: this.formatDateSql(endValue),
         school_subject: this.item.school_subject
       }
-      // console.log(homework)
       this.homeworkService.updateHomework(homework).then((res: HomeworkInterface) => {
-        console.log(res)
         let element = document.getElementById(`item_${res.homework_id}`)
         element?.classList.add(res.homework_done ?  'fadeOutDown' : 'fadeOutUp')
         this.updateEmit.emit(res)

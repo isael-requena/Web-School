@@ -80,7 +80,6 @@ export class HomePage implements OnInit, AfterViewInit {
 
   handleHomeworkWindow(showValue:boolean, homework?:HomeworkInterface) {
     this.showDetails = showValue;
-    console.log(homework)
   }
 
   addHomework(homework: HomeworkInterface) {
@@ -93,10 +92,8 @@ export class HomePage implements OnInit, AfterViewInit {
       this.showSlideSpinner = true
       this.homeworkService.getAllHomeworks().then((homeworks: HomeworkInterface[]) => {
         homeworks.sort((a, b) => a.homework_done - b.homework_done || new Date(b.homework_start_date).getTime() - new Date(a.homework_start_date).getTime());
-        console.log(homeworks);
         this.homeworkList = homeworks;
         this.homeworkSlide = this.filterByThisWeek(this.homeworkList)
-        console.log(this.homeworkSlide)
         this.showSlideSpinner = false;
         // this.updateSlides()
       });
@@ -108,7 +105,7 @@ export class HomePage implements OnInit, AfterViewInit {
   deleteHomework(homework: HomeworkInterface | undefined) {
     let element = document.getElementById(`item_${homework?.homework_id}`)
     element?.classList.add('fadeOut');
-    this.homeworkService.deleteHomework(homework?.homework_id).then((res:any) => {this.getHomeworksList(); console.log(res)})
+    this.homeworkService.deleteHomework(homework?.homework_id).then((res:any) => this.getHomeworksList())
   }
 
   updateSlides() {

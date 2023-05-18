@@ -8,6 +8,7 @@ import {HomePage} from './home.page'
 import { HomePageRoutingModule } from './home-routing.module';
 import {HomeworkComponent} from '../../components/homework/homework.page';
 import { NewHomeworkComponent } from '../../components/new-homework/new-homework.page';
+import { HomeworksDetailsComponent } from '../../components/homeworks-details/homeworks-details.component';
 
 @NgModule({
   imports: [
@@ -21,7 +22,7 @@ import { NewHomeworkComponent } from '../../components/new-homework/new-homework
     HomePage,
     HomeworkComponent,
     NewHomeworkComponent,
-
+    HomeworksDetailsComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

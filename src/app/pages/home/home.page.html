@@ -18,7 +18,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <!-- <app-new-task *ngIf="showNewHomeworkComp" (closeEvent)="closeHomeworkWindow($event)"></app-new-task> -->
+  <!-- <app-homeworks-details *ngIf="showDetails" (closeEmit)="handleHomeworkWindow(false)"></app-homeworks-details> -->
   <div id="container">
     <section class="main_section">
       <ion-title class="main_title"> <strong>José Martí <br> Web!</strong> </ion-title>
@@ -28,11 +28,11 @@
         <ion-label class="high_school_info">Sección "A"</ion-label>
       </div>
     </section>
-    <span class="sub-header">POR ENTREGAR:</span>
+    <span class="sub-header">POR ENTREGAR ESTA SEMANA:</span>
 
     <!-- homeworks -->
-    <swiper-container class="animated" *ngIf="!showSlideSpinner" pager="false" space-between="1" slides-per-view="1.4"
-      [ngClass]="{'fadeInUp': !showSlideSpinner, 'fadeOut': showSlideSpinner}">
+    <swiper-container class="animated" *ngIf="!showSlideSpinner && !showMsgeSwiper" pager="false" space-between="1" slides-per-view="1.4"
+      [ngClass]="{'fadeInUp': !showSlideSpinner, 'fadeOut': showSlideSpinner}" #homeworkSwiper>
       <swiper-slide class="categories" *ngFor="let homework of homeworkSlide; index as i;">
         <div class="categories-buttons business">
           <p class="school_subject text_ellipsis">{{filterSchoolSubject(homework)}}</p>
@@ -40,18 +40,25 @@
           <p class="homework_description">
             {{homework?.homework_description}}
           </p>
-          <div class="row_container">
+          <span class="row_container">
             <div class="column">
-              {{homework?.homework_start_date | date: 'EEE, d MMMM'}}
+              {{formatShortDate(homework?.homework_start_date)}}
             </div>
               -
             <div class="column">
-              {{homework?.homework_end_date | date: 'EEE, d MMMM'}}
+              {{formatShortDate(homework?.homework_end_date)}}
             </div>
-          </div>
+          </span>
         </div>
       </swiper-slide>
     </swiper-container>
+
+    <div *ngIf="showMsgeSwiper" class="info_message_contain">
+      <ion-label class="text_info">
+         <ion-icon class="icon-sucess" name="checkmark-circle-outline"></ion-icon>
+         {{homeworksSwipMessage}}
+        </ion-label>
+    </div>
 
     <div *ngIf="showSlideSpinner" class="spinner_container">
       <ion-spinner name="crescent" color="primary"></ion-spinner>
@@ -61,7 +68,8 @@
     <div class="task-list">
       <!-- This is where the tasks will go -->
       <app-homework *ngFor="let homework of homeworkList" [title]="homework?.homework_title"
-        [id]="homework?.homework_id" [item]="homework" (updateEmit)="getHomeworksList();updateSlides()"></app-homework>
+        [id]="homework?.homework_id" [item]="homework" (updateEmit)="getHomeworksList();updateSlides()"
+        (showModalEmit)="handleHomeworkWindow(true, $event)"></app-homework>
         <ion-button id="trigger-button" mode="ios">
           <ion-icon name="add"></ion-icon>
         </ion-button>

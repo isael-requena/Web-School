@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 import { HomeworkInterface } from '../../interfaces/Homework';
 
@@ -9,7 +9,8 @@ import { HomeworkService } from '../../services/homework.service';
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
 })
-export class HomePage implements OnInit {
+export class HomePage implements OnInit, AfterViewInit {
+  @ViewChild('homeworkSwiper') homeworkSwiper:any;
 
   schoolSubjects: any = [
     {
@@ -40,11 +41,16 @@ export class HomePage implements OnInit {
     spaceBetween: 1,
     slidesPerView: 1.7
   };
-  public showNewHomeworkComp: boolean = false;
+  public showDetails: boolean = false;
   public homeworkSlide: HomeworkInterface[] = [];
 
   private homeworkSlideTimout!: any;
   public showSlideSpinner: boolean = false;
+  public homeworksSwipMessage: string = '';
+  public showMsgeSwiper: boolean = false;
+
+  public weeksArray: any = ["Dom.","lun.","Mart.","Miérc.","Juev.","Vier.","Sáb"];
+  public monthsArray:any = ["dic.","en.","febr.","mzo","abr","my","jun.","jul.","ag.","sept.","oct.","nov.","dic."]
 
   constructor(
     private homeworkService: HomeworkService
@@ -64,27 +70,32 @@ export class HomePage implements OnInit {
     }
   }
 
-  handleHomeworkWindow() {
-    this.showNewHomeworkComp = true;
+  ngAfterViewInit(): void {
+    try {
+
+    } catch (error) {
+      console.error(error);
+    }
   }
 
-  closeHomeworkWindow(value: boolean) {
-    this.showNewHomeworkComp = value;
+  handleHomeworkWindow(showValue:boolean, homework?:HomeworkInterface) {
+    this.showDetails = showValue;
+    console.log(homework)
   }
 
   addHomework(homework: HomeworkInterface) {
-    // this.homeworkList.unshift(homework);
+    this.homeworkList.push(homework);
     this.getHomeworksList()
   }
 
   getHomeworksList() {
     try {
       this.homeworkService.getAllHomeworks().then((homeworks: HomeworkInterface[]) => {
-        homeworks.sort((a,b) => a.homework_done - b.homework_done);
+        homeworks.sort((a, b) => a.homework_done - b.homework_done || new Date(b.homework_start_date).getTime() - new Date(a.homework_start_date).getTime());
         console.log(homeworks);
         this.homeworkList = homeworks;
-        this.homeworkSlide = this.homeworkList.sort((a, b) => new Date(b.homework_end_date).getTime() - new Date(a.homework_end_date).getTime() && a.homework_done - b.homework_done)
-        .filter((homework: any) => homework.homework_done === 0)
+        this.homeworkSlide = this.filterByThisWeek(this.homeworkList)
+        console.log(this.homeworkSlide)
       });
     } catch (error) {
       console.error(error)
@@ -96,11 +107,45 @@ export class HomePage implements OnInit {
     this.showSlideSpinner = true
     this.homeworkSlideTimout = setTimeout(() => {
       this.showSlideSpinner = false;
-    }, 500);
+    }, 150);
   }
 
   filterSchoolSubject(homework: HomeworkInterface) {
-    return this.schoolSubjects.find((schoolSubject:any) => schoolSubject.value === homework.school_subject).name
+    return this.schoolSubjects.find((schoolSubject: any) => schoolSubject.value === homework.school_subject).name
+  }
+
+  filterByThisWeek(homeworks: HomeworkInterface[]) {
+    try {
+      if (!homeworks || !homeworks.length) {
+        return [];
+      }
+      const today = new Date()
+      const nextWeek = new Date(today)
+      nextWeek.setDate(nextWeek.getDate() + 7)
+
+      const filtered = homeworks.filter(
+        (homework:HomeworkInterface) =>
+        new Date(homework.homework_end_date) >= today && new Date(homework.homework_end_date) <= nextWeek && homework.homework_done === 0
+      )
+      if (filtered && filtered.length ) this.showMsgeSwiper = false;
+      else {
+        this.showMsgeSwiper = true;
+        homeworks.every((homework:HomeworkInterface) => homework.homework_done === 1)
+        ? this.homeworksSwipMessage = `¡Felicidades, estás al día!`
+        : this.homeworksSwipMessage = `No se encontraron tareas`;
+      }
+      return filtered
+
+    } catch (error) {
+      console.error(error)
+      return []
+    }
+  }
+
+  formatShortDate(dateString:any) {
+    const date = new Date(dateString)
+    let day = '' + this.weeksArray[date.getDay()+1]+" "+date.getDate()+" "+ this.monthsArray[date.getMonth()+1]
+    return day;
   }
 
 }

@@ -11,6 +11,7 @@ import { HomeworkInterface } from '../../interfaces/Homework'
 })
 export class HomeworkComponent implements OnInit {
 
+  @Output() showModalEmit = new EventEmitter<HomeworkInterface>()
   @Output() updateEmit = new EventEmitter()
   @Input() item: HomeworkInterface | undefined;
   @Input() title: string | undefined;
@@ -23,9 +24,9 @@ export class HomeworkComponent implements OnInit {
 
   ngOnInit() { }
 
-  onLabelClick($event: { preventDefault: () => void; }) {
+  onLabelClick($event: any) {
     $event.preventDefault();
-    console.log('clcick');
+    this.showModalEmit.emit(this.item)
   }
 
   public activeDoneEvent() {

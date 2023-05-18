@@ -152,13 +152,13 @@ ion-fab#trigger-button {
 }
 .row_container {
   display: flex;
-  font-size: 14px;
+  font-size: 13px;
   color: var(--ion-secondary-text-color);
   justify-content: space-between;
 }
 .homework_description {
   color: var(--ion-secondary-text-color);
-  font-size: 16px;
+  font-size: 14px;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -172,6 +172,9 @@ ion-fab#trigger-button {
 .color_primary {
   color: var(--ion-color-primary);
 }
+.text_color_secondary {
+  color: var(--ion-secondary-text-color);
+}
 .school_subject {
   font-size: 16px;
   font-weight: 100;
@@ -181,4 +184,26 @@ ion-fab#trigger-button {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+}
+
+.info_message_contain {
+  height: 160px;
+  padding: 2rem;
+  display: grid;
+  place-content: center;
+  .text_info {
+    display: flex;
+    align-items: center;
+    font-size: large;
+    color: var(--ion-secondary-text-color);
+    width: 100%;
+    margin: auto;
+    .icon {
+      &-sucess {
+        font-size: 39px;
+        margin-right: 20px;
+        color: lightgreen;
+      }
+    }
+  }
 }

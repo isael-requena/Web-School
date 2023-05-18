@@ -9,7 +9,7 @@
   <h1 class="main_title">Nueva Tarea</h1>
   <form novalidate [formGroup]="homeworkForm"  (ngSubmit)="submitHomework()">
 
-    <div class="dialog_content animated container"
+    <div class="animated container top_customized" id="first_form"
       [ngClass]="{'fadeInUp show_visibility': showFirstStep,'fadeOutUp hide_visibility': !showFirstStep}">
       <input class="input_field" autofocus="true" formControlName="title" placeholder="Escriba el título" #title>
       <p class="margin_0 color_danger" *ngIf="homeworkForm.get('title')?.errors?.['required'] && (homeworkForm.get('title')?.dirty || homeworkForm.get('title')?.touched)">
@@ -23,7 +23,7 @@
         </ion-button>
       </div>
     </div>
-    <div class="dialog_content animated container h_57 top_14"
+    <div class="animated container top_customized"
       [ngClass]="{'fadeInUp show_visibility': showSecondStep,'fadeOutUp hide_visibility': !showSecondStep}">
 
       <!-- <ion-label for="school_subject">Escoge una materia</ion-label>
@@ -34,10 +34,11 @@
         <option value="ingles">Inglés</option>
         <option value="fpsn">F.P.S.N</option>
       </select> -->
-      <ion-datetime class="date_form_picker" mode="ios" formControlName="endDate" (ionChange)="pickerTest(this.homeworkForm.get('endDate')?.value)">
+      <ion-datetime class="date_form_picker" mode="ios" [value]="nextWeek.toJSON()" #endDate>
         <span slot="title">Seleccione la fecha de entrega</span>
+        <span slot="time-label">Tiempo</span>
       </ion-datetime>
-      <div class="btns_container space_between">
+      <div class="btns_container space_between" id="second_form">
         <ion-icon class="back_icon" name="arrow-back" (click)="handleBackStep()"></ion-icon>
         <ion-button class="next_button" type="submit" [disabled]="homeworkForm.invalid">
           Enviar tarea &nbsp; <ion-icon name="chevron-up-outline"></ion-icon>

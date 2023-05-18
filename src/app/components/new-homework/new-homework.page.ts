@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -12,11 +12,12 @@ import { HomeworkInterface } from '../../interfaces/Homework';
   styleUrls: ['./new-homework.page.scss'],
 })
 export class NewHomeworkComponent implements OnInit {
+  @ViewChild('endDate') endDate: any;
   @Output() homeworkEmit = new EventEmitter<HomeworkInterface>()
   public showFirstStep: boolean = true;
   public showSecondStep: boolean = false;
   homeworkForm: FormGroup;
-
+  public nextWeek: Date = new Date()
 
   constructor(
     public modalController: ModalController,
@@ -26,19 +27,30 @@ export class NewHomeworkComponent implements OnInit {
       title: new FormControl('', Validators.required),
       description: new FormControl(''),
       done: new FormControl(0),
-      startDate: new FormControl(''),
-      endDate: new FormControl('', Validators.required),
       schoolSubject: new FormControl('ingles'),
     });
+    const today = new Date()
+    this.nextWeek.setDate(today.getDate() + 7)
+    console.log(this.nextWeek)
   }
 
   ngOnInit() {
     try {
-      this.homeworkForm.get('startDate')?.setValue(this.formatDate(new Date()))
+      // this.initDates();
     } catch (error) {
       console.error(error)
     }
   }
+
+/*   private initDates() {
+    try {
+      this.homeworkForm.get('startDate')?.setValue(this.formatDate(new Date()))
+      this.homeworkForm.get('endDate')?.setValue(this.nextWeek);
+      console.log(this.homeworkForm.get('endDate')?.value)
+    } catch (error) {
+      console.error(error)
+    }
+  } */
 
   public handleNextStep() {
     try {
@@ -57,7 +69,7 @@ export class NewHomeworkComponent implements OnInit {
     this.showSecondStep = false;
     this.showFirstStep = true;
     console.log(this.homeworkForm?.get('schoolSubject')?.value)
-    console.log(this.homeworkForm?.get('endDate')?.value)
+    console.log(this.endDate.value)
   }
 
   submitHomework() {
@@ -67,8 +79,9 @@ export class NewHomeworkComponent implements OnInit {
         homework_title: this.homeworkForm.get('title')?.value,
         homework_description: this.homeworkForm.get('description')?.value,
         homework_done: this.homeworkForm.get('done')?.value,
-        homework_start_date: this.homeworkForm.get('startDate')?.value,
-        homework_end_date: this.homeworkForm.get('endDate')?.value,
+        homework_start_date: this.formatDate(new Date()),
+        // homework_end_date: this.homeworkForm.get('endDate')?.value,
+        homework_end_date: this.formatDate(this.endDate.value),
         school_subject: this.homeworkForm.get('schoolSubject')?.value
       }
       console.log(homework)
@@ -81,11 +94,6 @@ export class NewHomeworkComponent implements OnInit {
     }
   }
 
-  pickerTest(DateValue: Date) {
-    console.log(DateValue);
-    this.homeworkForm.get('endDate')?.setValue(this.formatDate(DateValue))
-    console.log(this.homeworkForm.get('endDate')?.value);
-  }
   formatDate(date: Date) {
     const d = new Date(date);
     let month = this.startWithCero('' + (d.getMonth() + 1));

@@ -4,6 +4,6 @@ export interface HomeworkInterface {
   homework_description: string;
   homework_done: number;
   homework_start_date: Date|string;
-  homework_end_date: string;
+  homework_end_date: Date|string;
   school_subject: string;
 }

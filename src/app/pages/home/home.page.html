@@ -68,8 +68,8 @@
     <div class="task-list">
       <!-- This is where the tasks will go -->
       <app-homework *ngFor="let homework of homeworkList" [title]="homework?.homework_title"
-        [id]="homework?.homework_id" [item]="homework" (updateEmit)="getHomeworksList();updateSlides()"
-        (showModalEmit)="handleHomeworkWindow(true, $event)"></app-homework>
+         [item]="homework" (updateEmit)="getHomeworksList()"
+        (showModalEmit)="handleHomeworkWindow(true, $event)" (deleteEmit)="deleteHomework($event)"></app-homework>
         <ion-button id="trigger-button" mode="ios">
           <ion-icon name="add"></ion-icon>
         </ion-button>

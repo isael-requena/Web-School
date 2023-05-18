@@ -90,16 +90,25 @@ export class HomePage implements OnInit, AfterViewInit {
 
   getHomeworksList() {
     try {
+      this.showSlideSpinner = true
       this.homeworkService.getAllHomeworks().then((homeworks: HomeworkInterface[]) => {
         homeworks.sort((a, b) => a.homework_done - b.homework_done || new Date(b.homework_start_date).getTime() - new Date(a.homework_start_date).getTime());
         console.log(homeworks);
         this.homeworkList = homeworks;
         this.homeworkSlide = this.filterByThisWeek(this.homeworkList)
         console.log(this.homeworkSlide)
+        this.showSlideSpinner = false;
+        // this.updateSlides()
       });
     } catch (error) {
       console.error(error)
     }
+  }
+
+  deleteHomework(homework: HomeworkInterface | undefined) {
+    let element = document.getElementById(`item_${homework?.homework_id}`)
+    element?.classList.add('fadeOut');
+    this.homeworkService.deleteHomework(homework?.homework_id).then((res:any) => {this.getHomeworksList(); console.log(res)})
   }
 
   updateSlides() {
@@ -132,7 +141,7 @@ export class HomePage implements OnInit, AfterViewInit {
         this.showMsgeSwiper = true;
         homeworks.every((homework:HomeworkInterface) => homework.homework_done === 1)
         ? this.homeworksSwipMessage = `¡Felicidades, estás al día!`
-        : this.homeworksSwipMessage = `No se encontraron tareas`;
+        : this.homeworksSwipMessage = `No se encontraron más tareas para esta semana`;
       }
       return filtered
 

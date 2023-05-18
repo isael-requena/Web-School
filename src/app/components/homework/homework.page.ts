@@ -11,8 +11,9 @@ import { HomeworkInterface } from '../../interfaces/Homework'
 })
 export class HomeworkComponent implements OnInit {
 
-  @Output() showModalEmit = new EventEmitter<HomeworkInterface>()
-  @Output() updateEmit = new EventEmitter()
+  @Output() showModalEmit = new EventEmitter<HomeworkInterface>();
+  @Output() updateEmit = new EventEmitter();
+  @Output() deleteEmit = new EventEmitter<HomeworkInterface>();
   @Input() item: HomeworkInterface | undefined;
   @Input() title: string | undefined;
   @Input() id: number | undefined;
@@ -27,6 +28,10 @@ export class HomeworkComponent implements OnInit {
   onLabelClick($event: any) {
     $event.preventDefault();
     this.showModalEmit.emit(this.item)
+  }
+  onDeleteClick($event:any) {
+    $event.preventDefault();
+    this.deleteEmit.emit(this.item)
   }
 
   public activeDoneEvent() {
@@ -45,8 +50,10 @@ export class HomeworkComponent implements OnInit {
         school_subject: this.item.school_subject
       }
       // console.log(homework)
-      this.homeworkService.updateHomework(homework).then((res: any) => {
+      this.homeworkService.updateHomework(homework).then((res: HomeworkInterface) => {
         console.log(res)
+        let element = document.getElementById(`item_${res.homework_id}`)
+        element?.classList.add(res.homework_done ?  'fadeOutDown' : 'fadeOutUp')
         this.updateEmit.emit(res)
       })
     }

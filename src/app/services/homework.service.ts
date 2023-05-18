@@ -64,10 +64,13 @@ export class HomeworkService {
     });
   }
 
-  deleteHomework(id:number) {
+  deleteHomework(id:number | undefined) {
     return new Promise<HomeworkInterface>(async (resolve: any, reject: any) => {
       try {
-        this.http.delete(`${this.urlBase}api/homeworks/delete/${id}`).subscribe((res: any) => {
+        this.http.delete(`${this.urlBase}api/homeworks/delete/${id}`, {
+          observe: 'response',
+          responseType: 'blob',
+        }).subscribe((res: any) => {
           if (res) resolve(res);
           else reject('Ocurrió un problema');
         }, error => {

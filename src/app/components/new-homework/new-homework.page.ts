@@ -18,6 +18,8 @@ export class NewHomeworkComponent implements OnInit {
   public showSecondStep: boolean = false;
   homeworkForm: FormGroup;
   public nextWeek: Date = new Date()
+  public showSpinner: boolean = false;
+  public btnSendCounter: number = 0;
 
   constructor(
     public modalController: ModalController,
@@ -42,15 +44,26 @@ export class NewHomeworkComponent implements OnInit {
     }
   }
 
-/*   private initDates() {
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
     try {
-      this.homeworkForm.get('startDate')?.setValue(this.formatDate(new Date()))
-      this.homeworkForm.get('endDate')?.setValue(this.nextWeek);
-      console.log(this.homeworkForm.get('endDate')?.value)
+
+      this.btnSendCounter = 0
     } catch (error) {
       console.error(error)
     }
-  } */
+  }
+
+  /*   private initDates() {
+      try {
+        this.homeworkForm.get('startDate')?.setValue(this.formatDate(new Date()))
+        this.homeworkForm.get('endDate')?.setValue(this.nextWeek);
+        console.log(this.homeworkForm.get('endDate')?.value)
+      } catch (error) {
+        console.error(error)
+      }
+    } */
 
   public handleNextStep() {
     try {
@@ -74,21 +87,29 @@ export class NewHomeworkComponent implements OnInit {
 
   submitHomework() {
     try {
-      console.log(this.homeworkForm)
-      const homework: HomeworkInterface = {
-        homework_title: this.homeworkForm.get('title')?.value,
-        homework_description: this.homeworkForm.get('description')?.value,
-        homework_done: this.homeworkForm.get('done')?.value,
-        homework_start_date: this.formatDate(new Date()),
-        // homework_end_date: this.homeworkForm.get('endDate')?.value,
-        homework_end_date: this.formatDate(this.endDate.value),
-        school_subject: this.homeworkForm.get('schoolSubject')?.value
+      this.showSpinner = true;
+      this.btnSendCounter++;
+      console.log('pressed')
+      if (this.btnSendCounter === 1) {
+        console.log('pressed PROCESSED')
+
+        const homework: HomeworkInterface = {
+          homework_title: this.homeworkForm.get('title')?.value,
+          homework_description: this.homeworkForm.get('description')?.value,
+          homework_done: this.homeworkForm.get('done')?.value,
+          homework_start_date: this.formatDate(new Date()),
+          // homework_end_date: this.homeworkForm.get('endDate')?.value,
+          homework_end_date: this.formatDate(this.endDate.value),
+          school_subject: this.homeworkForm.get('schoolSubject')?.value
+        }
+        console.log(homework)
+        this.homeworkService.createHomework(homework).then((Res: HomeworkInterface) => {
+          this.showSpinner = false;
+          this.homeworkEmit.emit(Res);
+          this.modalController.dismiss();
+        })
       }
-      console.log(homework)
-      this.homeworkService.createHomework(homework).then((Res: HomeworkInterface) => {
-        this.homeworkEmit.emit(Res);
-        this.modalController.dismiss();
-      })
+
     } catch (error) {
       console.error(error)
     }

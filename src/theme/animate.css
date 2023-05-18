@@ -1696,6 +1696,35 @@
   animation-name: fadeOutDown;
 }
 
+@-webkit-keyframes fadeOutDownLarge {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 130px, 0);
+    transform: translate3d(0, 130px, 0);
+  }
+}
+
+@keyframes fadeOutDownLarge {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 130px, 0);
+    transform: translate3d(0, 130px, 0);
+  }
+}
+
+.fadeOutDownLarge {
+  -webkit-animation-name: fadeOutDown;
+  animation-name: fadeOutDown;
+}
+
 @-webkit-keyframes fadeOutDownBig {
   from {
     opacity: 1;
@@ -1866,6 +1895,35 @@
 }
 
 .fadeOutUp {
+  -webkit-animation-name: fadeOutUp;
+  animation-name: fadeOutUp;
+}
+
+@-webkit-keyframes fadeOutUpLarge {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -130px, 0);
+    transform: translate3d(0, -130px, 0);
+  }
+}
+
+@keyframes fadeOutUpLarge {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -130px, 0);
+    transform: translate3d(0, -130px, 0);
+  }
+}
+
+.fadeOutUpLarge {
   -webkit-animation-name: fadeOutUp;
   animation-name: fadeOutUp;
 }

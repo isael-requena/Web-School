@@ -1,4 +1,4 @@
-<div class="item">
+<div class="item animated" [id]="'item_'+item?.homework_id">
   <div class="task_container form-check">
     <input class="form-check-input" type="checkbox" value="" [id]="id" [checked]="item?.homework_done"
       (click)="activeDoneEvent()">
@@ -7,5 +7,6 @@
         {{title}}
       </p>
     </label>
+    <ion-icon class="icon_close" name="close-outline" (click)="onDeleteClick($event)"></ion-icon>
   </div>
 </div>

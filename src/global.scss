@@ -120,3 +120,10 @@ ion-select.bg_white .alert-wrapper {
     }
   }
 }
+
+ion-modal.login_modal {
+  --height: 20vh;
+  --width: 44vh;
+  --background: linear-gradient(36deg, rgba(69,127,192,1) 18%, rgba(7,195,176,1) 100%) !important;
+  --border-radius: 18px;
+}

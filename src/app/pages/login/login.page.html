@@ -1,14 +1,58 @@
 <ion-content [fullscreen]="true">
   <section class="main_container">
-    <ion-title class="main_title"> <strong>José Martí <br> Web!</strong> </ion-title>
-    <h3 class="title_h3">Iniciar Sesión</h3>
+    <div class="content">
+      <div class="logo_container">
+        <h1 class="main_title"> <strong>José Martí Web!</strong> </h1>
+        <img src="../../../assets/img/jose_marti_logo.jpg" alt="José Martí Logo">
+      </div>
+      <!--<h3 class="title_h3">Iniciar Sesión</h3>-->
+      <form class="form_holder" [formGroup]="loginForm" (submit)="login($event)">
+        <div class="email">
+          <label for="email">Email</label>
+          <div class="row">
+            <ion-icon name="mail-outline"></ion-icon>
+            <input type="text" formControlName="email" name="email" placeholder="usuario@gmail.com">
+          </div>
+        </div>
+        <p class="form_msge color_danger"
+          *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.hasError('required')">
+          Email es requerido.
+        </p>
+        <p class="form_msge color_danger"
+          *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.hasError('email')">
+          Email no es válido.
+        </p>
+        <div class="password">
+          <label for="password">Contraseña</label>
+          <div class="row">
+            <ion-icon name="lock-closed-outline"></ion-icon>
+            <input type="password" formControlName="password" name="password" placeholder="· · · · · · · · · · · ·">
+          </div>
+        </div>
+        <p class="form_msge color_danger"
+          *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.hasError('required')">
+          Contraseña es requerido.
+        </p>
+        <p class="form_msge color_danger"
+          *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.hasError('minlength')">
+          Mínimo 4 caracteres.
+        </p>
+        <ion-button type="submit" class="btn_submit" mode="ios" [disabled]="!loginForm.valid">Iniciar Sesión</ion-button>
+      </form>
+
+        <div class="form_footer">
+          <ion-label>¿No tienes cuenta?</ion-label>
+          <ion-button class="sign_up_btn" mode="ios">Regístrate!</ion-button>
+        </div>
+        <ion-modal [isOpen]="hasAuthError" class="login_modal">
+          <ng-template>
+            <div class="modal_container">
+              <ion-icon class="modal_close_icon" name="close-outline" (click)="closeModal()"></ion-icon>
+              <ion-title class="modal_title">Usuario incorrecto</ion-title>
+              <p class="modal_p">Por favor introduzca un Usuario y contraseña correcta</p>
+            </div>
+            </ng-template>
+          </ion-modal>
+    </div>
   </section>
 </ion-content>
-<ion-footer class="ion_footer">
-  <ion-toolbar>
-    <h5 class="label">¿No tienes cuenta?</h5>
-    <ion-button mode="ios">
-      Registrarse
-    </ion-button>
-  </ion-toolbar>
-</ion-footer>

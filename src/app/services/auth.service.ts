@@ -44,7 +44,8 @@ export class AuthService {
 
   public getAuth(): userType | null {
     try {
-      return this._localStorageService.get<userType>('user');
+      console.log(this._localStorageService.get<userType | null>('user'));
+      return this._localStorageService.get<userType | null>('user');
     } catch (err) {
       return null
     }

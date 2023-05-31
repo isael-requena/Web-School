@@ -37,22 +37,23 @@
           *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.hasError('minlength')">
           Mínimo 4 caracteres.
         </p>
-        <ion-button type="submit" class="btn_submit" mode="ios" [disabled]="!loginForm.valid">Iniciar Sesión</ion-button>
+        <ion-button type="submit" class="btn_submit" mode="ios" [disabled]="!loginForm.valid">Iniciar
+          Sesión</ion-button>
       </form>
 
-        <div class="form_footer">
-          <ion-label>¿No tienes cuenta?</ion-label>
-          <ion-button class="sign_up_btn" mode="ios">Regístrate!</ion-button>
-        </div>
-        <ion-modal [isOpen]="hasAuthError" class="login_modal">
-          <ng-template>
-            <div class="modal_container">
-              <ion-icon class="modal_close_icon" name="close-outline" (click)="closeModal()"></ion-icon>
-              <ion-title class="modal_title">Usuario incorrecto</ion-title>
-              <p class="modal_p">Por favor introduzca un Usuario y contraseña correcta</p>
-            </div>
-            </ng-template>
-          </ion-modal>
+      <div class="form_footer">
+        <ion-label>¿No tienes cuenta?</ion-label>
+        <ion-button class="sign_up_btn" mode="ios">Regístrate!</ion-button>
+      </div>
+      <ion-modal class="login_modal" [isOpen]="hasAuthError">
+        <ng-template>
+          <div class="modal_container">
+            <ion-icon class="modal_close_icon" name="close-outline" (click)="closeModal()"></ion-icon>
+            <ion-title class="modal_title">Usuario incorrecto</ion-title>
+            <p class="modal_p">Por favor introduzca un Usuario y contraseña correcta</p>
+          </div>
+        </ng-template>
+      </ion-modal>
     </div>
   </section>
 </ion-content>

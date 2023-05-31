@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -11,7 +11,7 @@ import { HomeworkInterface } from '../../interfaces/Homework';
   templateUrl: './new-homework.page.html',
   styleUrls: ['./new-homework.page.scss'],
 })
-export class NewHomeworkComponent implements OnInit {
+export class NewHomeworkComponent implements OnInit, OnDestroy {
   @ViewChild('endDate') endDate: any;
   @Output() homeworkEmit = new EventEmitter<HomeworkInterface>()
   public showFirstStep: boolean = true;
@@ -63,9 +63,15 @@ export class NewHomeworkComponent implements OnInit {
       }
     } */
 
-  public handleNextStep() {
+  public handleNextStep(event: Event) {
     try {
+      event.preventDefault()
+      console.log(this.homeworkForm?.get('title')?.valid)
+      console.log(this.homeworkForm?.get('title')?.value)
+      console.log(this.showFirstStep)
+      console.log(this.showSecondStep)
       if (this.homeworkForm?.get('title')?.valid) {
+        console.log('pase')
         this.showFirstStep = false;
         this.showSecondStep = true;
       }

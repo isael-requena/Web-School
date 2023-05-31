@@ -17,6 +17,11 @@ const routes: Routes = [
         redirectTo: 'home',
         pathMatch: 'full'
       },
+      {
+        path: 'coming-soon',
+        loadChildren: () => import('../coming-soon/coming-soon.module').then(m => m.ComingSoonPageModule),
+        pathMatch: 'full'
+      }
     ]
   }
 ];

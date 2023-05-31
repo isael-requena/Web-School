@@ -89,12 +89,12 @@ export class HomePage implements OnInit, AfterViewInit {
 
   getHomeworksList() {
     try {
-      this.showSlideSpinner = true
+      // this.showSlideSpinner = true
       this.homeworkService.getAllHomeworks().then((homeworks: HomeworkInterface[]) => {
-        homeworks.sort((a, b) => a.homework_done - b.homework_done || new Date(b.homework_start_date).getTime() - new Date(a.homework_start_date).getTime());
+        // homeworks.sort((a, b) => a.homework_done - b.homework_done || new Date(b.homework_start_date).getTime() - new Date(a.homework_start_date).getTime());
         this.homeworkList = homeworks;
         this.homeworkSlide = this.filterByThisWeek(this.homeworkList)
-        this.showSlideSpinner = false;
+        // this.showSlideSpinner = false;
         // this.updateSlides()
       });
     } catch (error) {
@@ -154,4 +154,7 @@ export class HomePage implements OnInit, AfterViewInit {
     return day;
   }
 
+  trackByItems(index:number, item:HomeworkInterface):number {
+    return item.homework_id;
+  }
 }

@@ -12,13 +12,13 @@
     <div class="animated container top_customized" id="first_form"
       [ngClass]="{'fadeInUp show_visibility': showFirstStep,'fadeOutUp hide_visibility': !showFirstStep}">
       <input class="input_field" autofocus="true" formControlName="title" placeholder="Escriba el título" #title>
-      <p class="margin_0 color_danger" *ngIf="homeworkForm.get('title')?.errors?.['required'] && (homeworkForm.get('title')?.dirty || homeworkForm.get('title')?.touched)">
+      <p class="margin_0 color_danger" *ngIf="(homeworkForm.get('title')?.dirty || homeworkForm.get('title')?.touched) && homeworkForm.get('title')?.errors?.['required']">
         El título es requerido
       </p>
       <input class="input_field input_little" formControlName="description" placeholder="Escriba una descripción"
         #description>
       <div class="btns_container centered">
-        <ion-button class="next_button " (click)="handleNextStep()">
+        <ion-button class="next_button " (click)="handleNextStep($event)">
           Siguiente
         </ion-button>
       </div>

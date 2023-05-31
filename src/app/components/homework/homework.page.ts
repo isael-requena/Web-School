@@ -21,7 +21,9 @@ export class HomeworkComponent implements OnInit {
 
   constructor(
     private homeworkService: HomeworkService
-  ) { }
+  ) {
+
+  }
 
   ngOnInit() { }
 
@@ -49,8 +51,8 @@ export class HomeworkComponent implements OnInit {
         school_subject: this.item.school_subject
       }
       this.homeworkService.updateHomework(homework).then((res: HomeworkInterface) => {
-        let element = document.getElementById(`item_${res.homework_id}`)
-        element?.classList.add(res.homework_done ?  'fadeOutDown' : 'fadeOutUp')
+        // let element = document.getElementById(`item_${res.homework_id}`)
+        // element?.classList.add(res.homework_done ?  'fadeOutDown' : 'fadeOutUp')
         this.updateEmit.emit(res)
       })
     }

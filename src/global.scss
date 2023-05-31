@@ -18,7 +18,6 @@
 @import "~@ionic/angular/css/typography.css";
 @import "~@ionic/angular/css/display.css";
 
-@import "theme/animate.css";
 
 /* Optional CSS utils that can be commented out */
 @import "~@ionic/angular/css/padding.css";
@@ -26,6 +25,8 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+@import "theme/animate.css";
 
 /* font typography */
 @import url("https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700;800;900&display=swap");

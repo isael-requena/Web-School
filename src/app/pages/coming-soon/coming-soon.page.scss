@@ -1,0 +1,42 @@
+ion-toolbar {
+  --background: var(--ion-background-color, --td-bg);
+  padding: 1rem 0.3rem;
+  padding-bottom: 0;
+
+  ion-icon,
+  i {
+    font-weight: lighter;
+    color: var(--ion-secondary-text-color);
+    font-size: 1.66rem;
+  }
+
+  ion-button.search-btn {
+    margin-right: 0.2rem;
+  }
+}
+
+ion-content {
+  --background: var(--ion-background-color, --td-bg);
+}
+
+#container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  place-content: center;
+  text-align: center;
+  padding: 1vh;
+
+  h1 {
+    font-size: 3vh;
+  }
+
+  h3 {
+    font-size: 2.5vh;
+  }
+  ion-icon {
+    margin: 0 auto;
+    font-size: 4.5vh;
+  }
+}

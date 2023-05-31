@@ -1,8 +1,8 @@
 <div class="item animated" [id]="'item_'+item?.homework_id">
   <div class="task_container form-check">
-    <input class="form-check-input" type="checkbox" value="" [id]="id" [checked]="item?.homework_done"
+    <input class="form-check-input" type="checkbox" value="" [id]="item?.homework_id" [checked]="item?.homework_done"
       (click)="activeDoneEvent()">
-    <label class="form-check-label" [for]="id" (click)="onLabelClick($event)">
+    <label class="form-check-label" [for]="item?.homework_id" (click)="onLabelClick($event)">
       <p class="ellipsis" [ngClass]="{'strikethrough': item?.homework_done}">
         {{title}}
       </p>
@@ -10,3 +10,8 @@
     <ion-icon class="icon_close" name="close-outline" (click)="onDeleteClick($event)"></ion-icon>
   </div>
 </div>
+<!-- <div class="checkbox-wrapper-11 item form-check" [id]="'item_'+item?.homework_id">
+  <input class="form-check-input" type="checkbox" value="" [id]="id" [checked]="item?.homework_done" (click)="activeDoneEvent()">
+  <label [for]="id" (click)="onLabelClick($event)"> {{title}}</label>
+
+</div> -->

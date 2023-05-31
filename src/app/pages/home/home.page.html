@@ -5,7 +5,7 @@
         <ion-icon slot="icon-only" name="menu-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
-
+    <ion-label> Tareas </ion-label>
     <ion-buttons slot="end">
       <ion-button class="search-btn">
         <ion-icon slot="icon-only" name="search"></ion-icon>
@@ -67,7 +67,7 @@
     <span class="todays-header">TAREAS PENDIENTES</span>
     <div class="task-list">
       <!-- This is where the tasks will go -->
-      <app-homework *ngFor="let homework of homeworkList" [title]="homework?.homework_title"
+      <app-homework *ngFor="let homework of homeworkList;let i=index;trackBy: trackByItems" [title]="homework?.homework_title"
          [item]="homework" (updateEmit)="getHomeworksList()"
         (showModalEmit)="handleHomeworkWindow(true, $event)" (deleteEmit)="deleteHomework($event)"></app-homework>
         <ion-button id="trigger-button" mode="ios">

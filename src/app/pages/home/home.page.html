@@ -1,9 +1,7 @@
 <ion-header class="ion-no-border" [translucent]="true">
   <ion-toolbar mode="md">
     <ion-buttons slot="start">
-      <ion-button>
-        <ion-icon slot="icon-only" name="menu-outline"></ion-icon>
-      </ion-button>
+      <ion-menu-button class="menu-btn"></ion-menu-button>
     </ion-buttons>
     <ion-label> Tareas </ion-label>
     <ion-buttons slot="end">
@@ -35,18 +33,18 @@
       [ngClass]="{'fadeInUp': !showSlideSpinner, 'fadeOut': showSlideSpinner}" #homeworkSwiper>
       <swiper-slide class="categories" *ngFor="let homework of homeworkSlide; index as i;">
         <div class="categories-buttons business">
-          <p class="school_subject text_ellipsis">{{filterSchoolSubject(homework)}}</p>
-          <span class="categories-name"> {{homework?.homework_title}} </span>
+          <p class="school_subject text_ellipsis">Inglés</p>
+          <span class="categories-name"> {{homework?.title}} </span>
           <p class="homework_description">
-            {{homework?.homework_description}}
+            {{homework?.description}}
           </p>
           <span class="row_container">
             <div class="column">
-              {{formatShortDate(homework?.homework_start_date)}}
+              {{formatShortDate(homework?.start_date)}}
             </div>
               -
             <div class="column">
-              {{formatShortDate(homework?.homework_end_date)}}
+              {{formatShortDate(homework?.end_date)}}
             </div>
           </span>
         </div>
@@ -67,9 +65,9 @@
     <span class="todays-header">TAREAS PENDIENTES</span>
     <div class="task-list">
       <!-- This is where the tasks will go -->
-      <app-homework *ngFor="let homework of homeworkList;let i=index;trackBy: trackByItems" [title]="homework?.homework_title"
-         [item]="homework" (updateEmit)="getHomeworksList()"
-        (showModalEmit)="handleHomeworkWindow(true, $event)" (deleteEmit)="deleteHomework($event)"></app-homework>
+      <app-homework *ngFor="let homework of homeworkList;let i=index;trackBy: trackByItems"
+       [item]="homework" [user]="user" (updateEmit)="getHomeworksList()" (showModalEmit)="handleHomeworkWindow(true, $event)"
+       (deleteEmit)="deleteHomework($event)"></app-homework>
         <ion-button id="trigger-button" mode="ios">
           <ion-icon name="add"></ion-icon>
         </ion-button>

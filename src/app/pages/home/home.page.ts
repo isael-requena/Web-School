@@ -1,8 +1,10 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 import { HomeworkInterface } from '../../interfaces/Homework';
+import { UserInterface } from '../../interfaces/User'
 
 import { HomeworkService } from '../../services/homework.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +14,7 @@ import { HomeworkService } from '../../services/homework.service';
 export class HomePage implements OnInit, AfterViewInit {
   @ViewChild('homeworkSwiper') homeworkSwiper:any;
 
-  schoolSubjects: any = [
+ /*  schoolSubjects: any = [
     {
       value: 'ghc',
       name: 'G.H.C',
@@ -34,7 +36,7 @@ export class HomePage implements OnInit, AfterViewInit {
       name: 'F.P.S.N',
       valueProgress: 0.8
     },
-  ];
+  ]; */
 
   public homeworkList: HomeworkInterface[] = [];
   sliderConfig = {
@@ -51,11 +53,14 @@ export class HomePage implements OnInit, AfterViewInit {
 
   public weeksArray: any = ["Dom.","lun.","Mart.","Miérc.","Juev.","Vier.","Sáb"];
   public monthsArray:any = ["dic.","en.","febr.","mzo","abr","my","jun.","jul.","ag.","sept.","oct.","nov.","dic."]
+  public user:UserInterface;
 
   constructor(
-    private homeworkService: HomeworkService
+    private homeworkService: HomeworkService,
+    public auth: AuthService
   ) {
     try {
+      this.user = auth.getAuth()
       this.getHomeworksList()
     } catch (error) {
       console.error(error)
@@ -90,7 +95,7 @@ export class HomePage implements OnInit, AfterViewInit {
   getHomeworksList() {
     try {
       // this.showSlideSpinner = true
-      this.homeworkService.getAllHomeworks().then((homeworks: HomeworkInterface[]) => {
+      this.homeworkService.getAllHomeworks(this.user.id).then((homeworks: HomeworkInterface[]) => {
         // homeworks.sort((a, b) => a.homework_done - b.homework_done || new Date(b.homework_start_date).getTime() - new Date(a.homework_start_date).getTime());
         this.homeworkList = homeworks;
         this.homeworkSlide = this.filterByThisWeek(this.homeworkList)
@@ -103,9 +108,9 @@ export class HomePage implements OnInit, AfterViewInit {
   }
 
   deleteHomework(homework: HomeworkInterface | undefined) {
-    let element = document.getElementById(`item_${homework?.homework_id}`)
+    let element = document.getElementById(`item_${homework?.id}`)
     element?.classList.add('fadeOut');
-    this.homeworkService.deleteHomework(homework?.homework_id).then((res:any) => this.getHomeworksList())
+    this.homeworkService.deleteHomework(homework?.id).then((res:any) => this.getHomeworksList())
   }
 
   updateSlides() {
@@ -116,9 +121,9 @@ export class HomePage implements OnInit, AfterViewInit {
     }, 150);
   }
 
-  filterSchoolSubject(homework: HomeworkInterface) {
+/*   filterSchoolSubject(homework: HomeworkInterface) {
     return this.schoolSubjects.find((schoolSubject: any) => schoolSubject.value === homework.school_subject).name
-  }
+  } */
 
   filterByThisWeek(homeworks: HomeworkInterface[]) {
     try {
@@ -131,12 +136,12 @@ export class HomePage implements OnInit, AfterViewInit {
 
       const filtered = homeworks.filter(
         (homework:HomeworkInterface) =>
-        new Date(homework.homework_end_date) >= today && new Date(homework.homework_end_date) <= nextWeek && homework.homework_done === 0
+        new Date(homework.end_date) >= today && new Date(homework.end_date) <= nextWeek && homework.status === "COMPLETED"
       )
       if (filtered && filtered.length ) this.showMsgeSwiper = false;
       else {
         this.showMsgeSwiper = true;
-        homeworks.every((homework:HomeworkInterface) => homework.homework_done === 1)
+        homeworks.every((homework:HomeworkInterface) => homework.status === "COMPLETED")
         ? this.homeworksSwipMessage = `¡Felicidades, estás al día!`
         : this.homeworksSwipMessage = `No se encontraron más tareas para esta semana`;
       }
@@ -155,6 +160,6 @@ export class HomePage implements OnInit, AfterViewInit {
   }
 
   trackByItems(index:number, item:HomeworkInterface):number {
-    return item.homework_id;
+    return item.id;
   }
 }

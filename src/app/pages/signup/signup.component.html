@@ -1,0 +1,115 @@
+<ion-content [fullscreen]="true">
+  <section class="main_container">
+    <div class="content">
+      <div class="logo_container">
+        <h1 class="main_title"> <strong>José Martí Web!</strong> </h1>
+        <img src="../../../assets/img/jose_marti_logo.jpg" alt="José Martí Logo">
+      </div>
+      <!--<h3 class="title_h3">Iniciar Sesión</h3>-->
+      <form class="form_holder" [formGroup]="signUpForm" (submit)="signUp($event)">
+
+        <div *ngIf="formStepCount === 1" class="step_container animated fadeInUp">
+          <div class="form_field">
+            <label for="email">Nombre completo</label>
+            <div class="row">
+              <ion-icon name="person-outline"></ion-icon>
+              <input type="text" formControlName="email" name="email" placeholder="Nombres y Apellidos">
+            </div>
+          </div>
+          <p class="form_msge color_danger"
+            *ngIf="signUpForm.get('username')?.touched && signUpForm.get('username')?.hasError('required')">
+            Nombres requeridos.
+          </p>
+
+          <div class="email">
+            <label for="email">Email</label>
+            <div class="row">
+              <ion-icon name="mail-outline"></ion-icon>
+              <input type="text" formControlName="email" name="email" placeholder="usuario@gmail.com">
+            </div>
+          </div>
+          <p class="form_msge color_danger"
+            *ngIf="signUpForm.get('email')?.touched && signUpForm.get('email')?.hasError('required')">
+            Email es requerido.
+          </p>
+          <p class="form_msge color_danger"
+            *ngIf="signUpForm.get('email')?.touched && signUpForm.get('email')?.hasError('email')">
+            Email no es válido.
+          </p>
+          <div class="password">
+            <label for="password">Contraseña</label>
+            <div class="row">
+              <ion-icon name="lock-closed-outline"></ion-icon>
+              <input type="password" formControlName="password" name="password" placeholder="· · · · · · · · · · · ·">
+            </div>
+          </div>
+          <p class="form_msge color_danger"
+            *ngIf="signUpForm.get('password')?.touched && signUpForm.get('password')?.hasError('required')">
+            Contraseña es requerida.
+          </p>
+          <p class="form_msge color_danger"
+            *ngIf="signUpForm.get('password')?.touched && signUpForm.get('password')?.hasError('minlength')">
+            Mínimo 4 caracteres.
+          </p>
+        </div>
+
+        <div *ngIf="formStepCount === 2" class="step_container animated fadeInUp">
+          <ion-label>Ingresar como:</ion-label>
+          <div class="cards_div">
+            <div class="card">
+              <div class="overlay">
+                <ion-label><strong> Profesor </strong></ion-label>
+              </div>
+            </div>
+            <div class="card">
+              <div class="overlay">
+                <ion-label><strong> Profesor </strong></ion-label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="formStepCount === 3" class="step_container animated fadeInUp">
+          <div class="form_field">
+            <ion-label for="school_year">Selecciona el año que estás cursando</ion-label>
+            <select id="school_year" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+              formControlName="school_year">
+              <option selected value="1ero">1ero</option>
+              <option value="2do">2do</option>
+              <option value="3ero">3ero</option>
+              <option value="4to">4to</option>
+              <option value="5to">5to</option>
+            </select>
+          </div>
+          <div class="form_field">
+            <ion-label for="section">Selecciona la sección</ion-label>
+            <select id="section" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+              formControlName="section">
+              <option selected value="A">A</option>
+              <option value="B">B</option>
+            </select>
+          </div>
+        </div>
+
+        <span class="step_btns_container" [ngClass]="{'columns': formStepCount > 1 && formStepCount < 3}">
+          <ion-button *ngIf="formStepCount > 1" class="back_btn" mode="ios" (click)="prevStep()">
+            Atrás
+          </ion-button>
+          <ion-button *ngIf="formStepCount < 3" class="next_btn" mode="ios" (click)="nextStep()">
+            Siguiente
+          </ion-button>
+        </span>
+
+        <ion-button *ngIf="formStepCount === 3" type="submit" class="btn_submit" mode="ios" [disabled]="!signUpForm.valid">
+          Registrarse
+        </ion-button>
+      </form>
+
+      <div class="form_footer">
+        <ion-label>¿Ya tienes cuenta?</ion-label>
+        <ion-button class="sign_up_btn" mode="ios" (click)="goToLogin()">Inicia Sesión!</ion-button>
+      </div>
+
+    </div>
+  </section>
+</ion-content>

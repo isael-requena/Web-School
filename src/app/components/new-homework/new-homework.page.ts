@@ -28,8 +28,8 @@ export class NewHomeworkComponent implements OnInit, OnDestroy {
     this.homeworkForm = new FormGroup({
       title: new FormControl('', Validators.required),
       description: new FormControl(''),
-      done: new FormControl(0),
-      schoolSubject: new FormControl('ingles'),
+      status: new FormControl('IN PROGRESS'),
+      schoolSubject: new FormControl('INGLÉS'),
     });
     const today = new Date()
     this.nextWeek.setDate(today.getDate() + 7)
@@ -92,12 +92,12 @@ export class NewHomeworkComponent implements OnInit, OnDestroy {
       if (this.btnSendCounter === 1) {
 
         const homework: HomeworkInterface = {
-          homework_title: this.homeworkForm.get('title')?.value,
-          homework_description: this.homeworkForm.get('description')?.value,
-          homework_done: this.homeworkForm.get('done')?.value,
-          homework_start_date: this.formatDate(new Date()),
+          title: this.homeworkForm.get('title')?.value,
+          description: this.homeworkForm.get('description')?.value,
+          status: this.homeworkForm.get('done')?.value,
+          start_date: this.formatDate(new Date()),
           // homework_end_date: this.homeworkForm.get('endDate')?.value,
-          homework_end_date: this.formatDate(this.endDate.value),
+          end_date: this.formatDate(this.endDate.value),
           school_subject: this.homeworkForm.get('schoolSubject')?.value
         }
         this.homeworkService.createHomework(homework).then((Res: HomeworkInterface) => {

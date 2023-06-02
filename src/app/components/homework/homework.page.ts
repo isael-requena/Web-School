@@ -3,6 +3,7 @@ import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { HomeworkService } from '../../services/homework.service';
 
 import { HomeworkInterface } from '../../interfaces/Homework'
+import { UserInterface } from '../../interfaces/User'
 
 @Component({
   selector: 'app-homework',
@@ -15,14 +16,11 @@ export class HomeworkComponent implements OnInit {
   @Output() updateEmit = new EventEmitter();
   @Output() deleteEmit = new EventEmitter<HomeworkInterface>();
   @Input() item: HomeworkInterface | undefined;
-  @Input() title: string | undefined;
-  @Input() id: number | undefined;
-
+  @Input() user: UserInterface;
 
   constructor(
-    private homeworkService: HomeworkService
+    private homeworkService: HomeworkService,
   ) {
-
   }
 
   ngOnInit() { }
@@ -38,20 +36,20 @@ export class HomeworkComponent implements OnInit {
 
   public activeDoneEvent() {
     if (this.item) {
-      this.item.homework_done = this.item.homework_done ? 0 : 1
-      let startValue: any = '' + this.item.homework_start_date
-      let endValue: any = '' + this.item.homework_end_date
+      this.item.status = this.item.status === "COMPLETED" ? "IN PROGRESS" : "COMPLETED";
+      let startValue: any = '' + this.item.start_date
+      let endValue: any = '' + this.item.end_date
       const homework: HomeworkInterface = {
-        homework_id: this.item.homework_id,
-        homework_title: this.item.homework_title,
-        homework_description: this.item.homework_description,
-        homework_done: this.item.homework_done,
-        homework_start_date: this.formatDateSql(startValue),
-        homework_end_date: this.formatDateSql(endValue),
+        id: this.item.id,
+        title: this.item.title,
+        description: this.item.description,
+        status: this.item.status,
+        start_date: this.formatDateSql(startValue),
+        end_date: this.formatDateSql(endValue),
         school_subject: this.item.school_subject
       }
-      this.homeworkService.updateHomework(homework).then((res: HomeworkInterface) => {
-        // let element = document.getElementById(`item_${res.homework_id}`)
+      this.homeworkService.updateHomework(homework, this.user.id).then((res: HomeworkInterface) => {
+        // let element = document.getElementById(`item_${res.id}`)
         // element?.classList.add(res.homework_done ?  'fadeOutDown' : 'fadeOutUp')
         this.updateEmit.emit(res)
       })

@@ -5,6 +5,10 @@ import { PageGuard } from './guards/page.guard';
 
 const routes: Routes = [
   {
+    path: 'signup',
+    loadChildren: () => import('./pages/signup/signup.module').then( m => m.SignupModule),
+  },
+  {
     path: '',
     loadChildren: () => import('./pages/tabs/tabs.module').then( m => m.TabsPageModule),
     canActivate: [PageGuard]

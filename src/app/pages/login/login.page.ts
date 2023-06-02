@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { UserInterface } from '../../interfaces/User';
 
 @Component({
   selector: 'app-login',
@@ -41,16 +42,23 @@ export class LoginPage implements OnInit {
   }
 
   login(event?: Event) {
-    this.hasAuthError = false;
-    event?.preventDefault()
-    const data: {email:string, password: string} = {
-      email: this.loginForm.get('email')?.value,
-      password: this.loginForm.get('password')?.value
-    }
-    const user = this.auth.dummyLogin(data)
-    if (user) this.router.navigate(['/home'])
-    else {
-      this.hasAuthError = true;
+    try {
+      this.hasAuthError = false;
+      event?.preventDefault()
+      const data: {email:string, password: string} = {
+        email: this.loginForm.get('email')?.value,
+        password: this.loginForm.get('password')?.value
+      }
+      this.auth.login(data).then((Res: any) => {
+        console.log(Res)
+        if (Res.message || !Res) {
+          console.log('USUARIO INVALIDO')
+          this.hasAuthError = true;
+        }
+        else this.router.navigate(['/home'])
+      })
+    } catch (error) {
+      this.hasAuthError = true
     }
   }
 
@@ -62,5 +70,10 @@ export class LoginPage implements OnInit {
     if(this.hasAuthError) {
       this.hasAuthError = false;
     }
+  }
+
+  goToSignUp() {
+    console.log('login to signup func')
+    this.router.navigate(['/signup'])
   }
 }

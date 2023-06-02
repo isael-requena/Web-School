@@ -84,6 +84,18 @@
   --ion-color-light-contrast-rgb: 0, 0, 0;
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
+
+  /*App*/
+  --app-blue-1: #2155CD;
+  --app-blue-2: #0AA1DD;
+  --app-blue-3: #79DAE8;
+  --app-blue-4: #E8F9FD;
+  --app-blue-5: #48bce0;
+  --app-bg-soft: #f1f7fe;
+  --dark-blue: #001750;
+  --bluish-green: #06CDB5;
+  --app-blue-2: #1b78cd;
+  --tab-bottom-bg: rgba(1,43,92,1);
 }
 
 //  @media (prefers-color-scheme: dark) {
@@ -356,12 +368,7 @@
     --ion-checkmark-background: #c9d9fd;
     --ion-close-button: var(--ion-text-color);
 
-    //App
-    --app-blue-1: #2155CD;
-    --app-blue-2: #0AA1DD;
-    --app-blue-3: #79DAE8;
-    --app-blue-4: #E8F9FD;
-    --app-bg-soft: #f1f7fe;
+
   }
 
   /*
@@ -405,6 +412,7 @@
 
     // modified variable
     --ion-card-background: #fff;
+
   }
 
   .ios ion-modal {

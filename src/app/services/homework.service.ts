@@ -15,17 +15,16 @@ export class HomeworkService {
   ) {
   }
 
-  getAllHomeworks() {
+  getAllHomeworks(userId: number) {
     return new Promise<HomeworkInterface[]>(async (resolve: any, reject: any) => {
       try {
-        this.http.get<HomeworkInterface[]>(`${this.urlBase}api/homeworks`).subscribe((res: any) => {
+        this.http.get<HomeworkInterface[]>(`${this.urlBase}api/homeworks/${userId}`).subscribe((res: any) => {
 
           if (res && res.length) resolve(res);
           else reject('No se encuentran tareas');
         }, error => {
           reject(error);
         });
-
 
       } catch (error) {
         reject(error);
@@ -49,10 +48,10 @@ export class HomeworkService {
     });
   }
 
-  updateHomework(data: HomeworkInterface) {
+  updateHomework(data: HomeworkInterface, userId: number) {
     return new Promise<HomeworkInterface>(async (resolve: any, reject: any) => {
       try {
-        this.http.put<HomeworkInterface>(`${this.urlBase}api/homeworks/update/${data.homework_id}`, data).subscribe((res: HomeworkInterface) => {
+        this.http.put<HomeworkInterface>(`${this.urlBase}api/homeworks/update/${userId}/${data.id}`, data).subscribe((res: HomeworkInterface) => {
           if (res) resolve(res);
           else reject('Ocurrió un problema');
         }, error => {

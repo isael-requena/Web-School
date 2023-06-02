@@ -37,8 +37,8 @@
           *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.hasError('minlength')">
           Mínimo 4 caracteres.
         </p>
-        <ion-button type="submit" class="btn_submit" mode="ios" [disabled]="!loginForm.valid">Iniciar
-          Sesión</ion-button>
+        <ion-button type="submit" class="btn_submit" mode="ios" [disabled]="!loginForm.valid" (click)="goToSignUp()">
+          Iniciar Sesión</ion-button>
       </form>
 
       <div class="form_footer">

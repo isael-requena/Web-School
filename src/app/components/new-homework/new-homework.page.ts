@@ -3,6 +3,7 @@ import { ModalController } from '@ionic/angular';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { HomeworkService } from '../../services/homework.service';
+import { DateFormatService } from '../../services/date-format.service';
 
 import { HomeworkInterface } from '../../interfaces/Homework';
 
@@ -23,7 +24,8 @@ export class NewHomeworkComponent implements OnInit, OnDestroy {
 
   constructor(
     public modalController: ModalController,
-    private homeworkService: HomeworkService
+    private homeworkService: HomeworkService,
+    public dateFormat: DateFormatService
   ) {
     this.homeworkForm = new FormGroup({
       title: new FormControl('', Validators.required),
@@ -65,7 +67,7 @@ export class NewHomeworkComponent implements OnInit, OnDestroy {
 
   public handleNextStep(event: Event) {
     try {
-      event.preventDefault()
+      // event.preventDefault()
       console.log(this.homeworkForm?.get('title')?.valid)
       console.log(this.homeworkForm?.get('title')?.value)
       console.log(this.showFirstStep)
@@ -95,9 +97,9 @@ export class NewHomeworkComponent implements OnInit, OnDestroy {
           title: this.homeworkForm.get('title')?.value,
           description: this.homeworkForm.get('description')?.value,
           status: this.homeworkForm.get('done')?.value,
-          start_date: this.formatDate(new Date()),
+          start_date: this.dateFormat.formatDate(new Date()),
           // homework_end_date: this.homeworkForm.get('endDate')?.value,
-          end_date: this.formatDate(this.endDate.value),
+          end_date: this.dateFormat.formatDate(this.endDate.value),
           school_subject: this.homeworkForm.get('schoolSubject')?.value
         }
         this.homeworkService.createHomework(homework).then((Res: HomeworkInterface) => {
@@ -110,20 +112,5 @@ export class NewHomeworkComponent implements OnInit, OnDestroy {
     } catch (error) {
       console.error(error)
     }
-  }
-
-  formatDate(date: Date) {
-    const d = new Date(date);
-    let month = this.startWithCero('' + (d.getMonth() + 1));
-    let day = this.startWithCero('' + d.getDate());
-    const year = d.getFullYear();
-    let hour = this.startWithCero('' + d.getHours()), minutes = this.startWithCero('' + d.getMinutes()), seconds = this.startWithCero('' + d.getSeconds());
-    const dateArray = [year, month, day].join('-');
-    const timeArray = [hour, minutes, seconds].join(':')
-    const dateFormat = dateArray + " " + timeArray; return dateFormat;
-  }
-  startWithCero(time: string) {
-    if (time.length < 2) return time = '0' + time;
-    else return time
   }
 }

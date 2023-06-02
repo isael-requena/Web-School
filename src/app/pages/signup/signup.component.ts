@@ -5,6 +5,9 @@ import { Router } from '@angular/router';
 import { UserInterface } from '../../interfaces/User';
 
 import { AuthService } from '../../services/auth.service';
+import { DateFormatService } from '../../services/date-format.service';
+import { NavController } from '@ionic/angular';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-signup',
@@ -27,7 +30,9 @@ export class SignupComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    public dateFormat: DateFormatService,
+    public navCtrl: NavController
   ) {
     const userExample: UserInterface = {
       "username": "Juanito Alimaña 2",
@@ -49,6 +54,7 @@ export class SignupComponent implements OnInit {
           Validators.minLength(6),
         ])],
         'role': [null, Validators.required],
+        'create_time': [dateFormat.formatDate(new Date())],
         'school_year': [null, Validators.required],
         'section': [null, Validators.required],
       });
@@ -57,9 +63,31 @@ export class SignupComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public signUp(event: Event) {
-    event.preventDefault();
-    console.log(this.signUpForm.value)
+  public signUp(event?: Event) {
+    event?.preventDefault();
+    const AUTH_USER: UserInterface = {
+      username: this.signUpForm.get('username')?.value.toUpperCase(),
+      email: this.signUpForm.get('email')?.value.trim().toUpperCase(),
+      password: this.signUpForm.get('password')?.value,
+      role: this.signUpForm.get('role')?.value,
+      school_year: this.signUpForm.get('school_year')?.value,
+      section: this.signUpForm.get('section')?.value,
+      create_time: this.signUpForm.get('create_time')?.value,
+    }
+    this.auth.signUp(AUTH_USER).then((Res:any) => {
+      if (Res.status === 200) {
+        console.log(Res)
+        Swal.fire({
+          icon: 'success',
+          title: 'Registrado correctamente',
+          text: 'Inicie sesión para ingresar',
+          showConfirmButton: false,
+          timer: 2500
+        }).then(() => {
+          this.navCtrl.navigateForward(['/login']);
+        })
+      }
+    })
   }
 
   goToLogin() {
@@ -72,6 +100,20 @@ export class SignupComponent implements OnInit {
 
   prevStep() {
     if ( this.formStepCount > 1) this.formStepCount--;
+  }
+
+  selectRole(value: number) {
+    this.signUpForm.get('role')?.setValue(value)
+    if (this.signUpForm.get('role')?.value === 2) this.signUp();
+    else if (this.signUpForm.get('role')?.value === 1) this.nextStep()
+  }
+
+  validateNextStep():boolean {
+    return (
+      (this.formStepCount === 1 && (this.signUpForm.get('username')?.valid && this.signUpForm.get('email')?.valid && this.signUpForm.get('password')?.valid)) ||
+      (this.formStepCount === 2 && this.signUpForm.get('role')?.valid) ||
+      (this.formStepCount === 3 && (this.signUpForm.get('school_year')?.valid && this.signUpForm.get('section')?.valid))
+    )
   }
 
 }

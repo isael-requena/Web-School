@@ -5,6 +5,7 @@ import { UserInterface } from '../../interfaces/User'
 
 import { HomeworkService } from '../../services/homework.service';
 import { AuthService } from '../../services/auth.service';
+import { LettersService } from '../../services/letters.service';
 
 @Component({
   selector: 'app-home',
@@ -48,19 +49,23 @@ export class HomePage implements OnInit, AfterViewInit {
 
   private homeworkSlideTimout!: any;
   public showSlideSpinner: boolean = false;
-  public homeworksSwipMessage: string = '';
+  public homeworksSwipMessage: string = 'No se encontraron más tareas para esta semana';
   public showMsgeSwiper: boolean = false;
 
   public weeksArray: any = ["Dom.","lun.","Mart.","Miérc.","Juev.","Vier.","Sáb"];
   public monthsArray:any = ["dic.","en.","febr.","mzo","abr","my","jun.","jul.","ag.","sept.","oct.","nov.","dic."]
   public user:UserInterface;
+  public isTeacher: boolean = false;
 
   constructor(
     private homeworkService: HomeworkService,
-    public auth: AuthService
+    public auth: AuthService,
+    public letterService: LettersService
   ) {
     try {
       this.user = auth.getAuth()
+      this.isTeacher = this.user.role === 2 ? true : false;
+      console.log(this.user)
       this.getHomeworksList()
     } catch (error) {
       console.error(error)
@@ -102,8 +107,11 @@ export class HomePage implements OnInit, AfterViewInit {
         // this.showSlideSpinner = false;
         // this.updateSlides()
       });
+      console.log(this.homeworkSlide);
     } catch (error) {
       console.error(error)
+      this.homeworksSwipMessage = `No se encontraron más tareas para esta semana`;
+      this.showMsgeSwiper = true;
     }
   }
 

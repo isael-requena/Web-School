@@ -6,6 +6,8 @@ register();
 import { MenuOptInterface } from './interfaces/Menu'
 import { MENU_OPT } from './providers/menu'
 import { Router } from '@angular/router';
+import { UserInterface } from './interfaces/User';
+import { LettersService } from './services/letters.service';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -13,11 +15,14 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   appOptMenu: MenuOptInterface[] = MENU_OPT;
+  user: UserInterface;
 
   constructor(
     private router: Router,
-    public auth: AuthService
+    public auth: AuthService,
+    public letterService: LettersService,
   ) {
+    this.user = auth.getAuth()
   }
 
   navigate(url: string){

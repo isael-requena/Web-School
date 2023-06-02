@@ -13,7 +13,7 @@
             <label for="email">Nombre completo</label>
             <div class="row">
               <ion-icon name="person-outline"></ion-icon>
-              <input type="text" formControlName="email" name="email" placeholder="Nombres y Apellidos">
+              <input type="text" formControlName="username" name="email" placeholder="Nombres y Apellidos">
             </div>
           </div>
           <p class="form_msge color_danger"
@@ -25,7 +25,7 @@
             <label for="email">Email</label>
             <div class="row">
               <ion-icon name="mail-outline"></ion-icon>
-              <input type="text" formControlName="email" name="email" placeholder="usuario@gmail.com">
+              <input type="email" formControlName="email" name="email" placeholder="usuario@gmail.com">
             </div>
           </div>
           <p class="form_msge color_danger"
@@ -49,27 +49,29 @@
           </p>
           <p class="form_msge color_danger"
             *ngIf="signUpForm.get('password')?.touched && signUpForm.get('password')?.hasError('minlength')">
-            Mínimo 4 caracteres.
+            Mínimo 6 caracteres.
           </p>
         </div>
 
         <div *ngIf="formStepCount === 2" class="step_container animated fadeInUp">
-          <ion-label>Ingresar como:</ion-label>
+          <h1 class="title_responsive">Ingresar como:</h1>
           <div class="cards_div">
-            <div class="card">
+            <div class="card_select bg_image" [style.backgroundImage]="'url(../../../../../assets/img/teacher.avif)'"
+              (click)="selectRole(2)">
               <div class="overlay">
                 <ion-label><strong> Profesor </strong></ion-label>
               </div>
             </div>
-            <div class="card">
+            <div class="card_select bg_image" [style.backgroundImage]="'url(../../../../../assets/img/student.avif)'"
+              (click)="selectRole(1)">
               <div class="overlay">
-                <ion-label><strong> Profesor </strong></ion-label>
+                <ion-label><strong> Estudiante </strong></ion-label>
               </div>
             </div>
           </div>
         </div>
 
-        <div *ngIf="formStepCount === 3" class="step_container animated fadeInUp">
+        <div *ngIf="formStepCount === 3 && signUpForm.get('role')?.value === 1" class="step_container animated fadeInUp">
           <div class="form_field">
             <ion-label for="school_year">Selecciona el año que estás cursando</ion-label>
             <select id="school_year" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
@@ -91,18 +93,19 @@
           </div>
         </div>
 
-        <span class="step_btns_container" [ngClass]="{'columns': formStepCount > 1 && formStepCount < 3}">
+        <span class="step_btns_container" [ngClass]="{'columns': formStepCount > 1 && formStepCount <= 3}">
           <ion-button *ngIf="formStepCount > 1" class="back_btn" mode="ios" (click)="prevStep()">
             Atrás
           </ion-button>
-          <ion-button *ngIf="formStepCount < 3" class="next_btn" mode="ios" (click)="nextStep()">
+          <ion-button *ngIf="formStepCount < 3" class="next_btn" mode="ios" (click)="nextStep()"
+            [disabled]="!validateNextStep()">
             Siguiente
+          </ion-button>
+          <ion-button *ngIf="formStepCount === 3" type="submit" class="next_btn" mode="ios" [disabled]="!signUpForm.valid">
+            Registrarse
           </ion-button>
         </span>
 
-        <ion-button *ngIf="formStepCount === 3" type="submit" class="btn_submit" mode="ios" [disabled]="!signUpForm.valid">
-          Registrarse
-        </ion-button>
       </form>
 
       <div class="form_footer">

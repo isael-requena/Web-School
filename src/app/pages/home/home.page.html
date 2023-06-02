@@ -18,18 +18,19 @@
 <ion-content [fullscreen]="true">
   <!-- <app-homeworks-details *ngIf="showDetails" (closeEmit)="handleHomeworkWindow(false)"></app-homeworks-details> -->
   <div id="container">
+    <ion-label style="margin: 0 3vh;">Bienvenido {{letterService.toUpperAndLowerCase(letterService.shortNamesFunc(user.username))}} </ion-label>
     <section class="main_section">
       <ion-title class="main_title"> <strong>José Martí <br> Web!</strong> </ion-title>
       <div class="logo_section">
         <div class="high_school_badge bg_image"></div>
-        <ion-label class="high_school_info">4to año</ion-label>
-        <ion-label class="high_school_info">Sección "A"</ion-label>
+        <ion-label *ngIf="user?.school_year" class="high_school_info">{{user?.school_year}} año</ion-label>
+        <ion-label *ngIf="user?.section" class="high_school_info">Sección "{{user?.section}}"</ion-label>
       </div>
     </section>
-    <span class="sub-header">POR ENTREGAR ESTA SEMANA:</span>
+    <span *ngIf="homeworkSlide.length && !isTeacher" class="sub-header">POR ENTREGAR ESTA SEMANA:</span>
 
     <!-- homeworks -->
-    <swiper-container class="animated" *ngIf="!showSlideSpinner && !showMsgeSwiper" pager="false" space-between="1" slides-per-view="1.4"
+    <swiper-container class="animated" *ngIf="!showSlideSpinner && !showMsgeSwiper && homeworkSlide.length && !isTeacher" pager="false" space-between="1" slides-per-view="1.4"
       [ngClass]="{'fadeInUp': !showSlideSpinner, 'fadeOut': showSlideSpinner}" #homeworkSwiper>
       <swiper-slide class="categories" *ngFor="let homework of homeworkSlide; index as i;">
         <div class="categories-buttons business">
@@ -62,17 +63,21 @@
       <ion-spinner name="crescent" color="primary"></ion-spinner>
     </div>
 
-    <span class="todays-header">TAREAS PENDIENTES</span>
+    <span class="todays-header">{{isTeacher ? 'TAREAS DE LOS ESTUDIANTES' : 'TAREAS PENDIENTES'}}</span>
     <div class="task-list">
       <!-- This is where the tasks will go -->
       <app-homework *ngFor="let homework of homeworkList;let i=index;trackBy: trackByItems"
        [item]="homework" [user]="user" (updateEmit)="getHomeworksList()" (showModalEmit)="handleHomeworkWindow(true, $event)"
        (deleteEmit)="deleteHomework($event)"></app-homework>
-        <ion-button id="trigger-button" mode="ios">
+
+      <ion-label *ngIf="!homeworkList.length" class="text_info_style">
+        No hay Tareas
+      </ion-label>
+        <ion-button *ngIf="isTeacher" id="trigger-button" mode="ios">
           <ion-icon name="add"></ion-icon>
         </ion-button>
 
-      <ion-modal mode="ios" trigger="trigger-button" [isOpen]="false" [breakpoints]="[0.1, 0.5, 1]"
+      <ion-modal *ngIf="isTeacher" mode="ios" trigger="trigger-button" [isOpen]="false" [breakpoints]="[0.1, 0.5, 1]"
         [initialBreakpoint]="1">
         <ng-template>
           <app-new-homework (homeworkEmit)="addHomework($event)"></app-new-homework>

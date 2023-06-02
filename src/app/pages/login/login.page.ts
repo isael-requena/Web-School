@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { UserInterface } from '../../interfaces/User';
+import { NavController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-login',
@@ -24,7 +26,8 @@ export class LoginPage implements OnInit {
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    private navCtrl: NavController,
   ) {
     this.loginForm = this.fb.group({
       'email': [null, Validators.compose([
@@ -46,7 +49,7 @@ export class LoginPage implements OnInit {
       this.hasAuthError = false;
       event?.preventDefault()
       const data: {email:string, password: string} = {
-        email: this.loginForm.get('email')?.value,
+        email: this.loginForm.get('email')?.value.trim().toUpperCase(),
         password: this.loginForm.get('password')?.value
       }
       this.auth.login(data).then((Res: any) => {
@@ -55,7 +58,7 @@ export class LoginPage implements OnInit {
           console.log('USUARIO INVALIDO')
           this.hasAuthError = true;
         }
-        else this.router.navigate(['/home'])
+        else this.navCtrl.navigateForward(['/home'])
       })
     } catch (error) {
       this.hasAuthError = true
@@ -74,6 +77,6 @@ export class LoginPage implements OnInit {
 
   goToSignUp() {
     console.log('login to signup func')
-    this.router.navigate(['/signup'])
+    this.navCtrl.navigateForward(['/signup'])
   }
 }

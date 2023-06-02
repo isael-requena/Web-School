@@ -1,6 +1,8 @@
 import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 
 import { HomeworkService } from '../../services/homework.service';
+import { DateFormatService } from '../../services/date-format.service';
+
 
 import { HomeworkInterface } from '../../interfaces/Homework'
 import { UserInterface } from '../../interfaces/User'
@@ -20,6 +22,7 @@ export class HomeworkComponent implements OnInit {
 
   constructor(
     private homeworkService: HomeworkService,
+    private dateFormat: DateFormatService
   ) {
   }
 
@@ -44,8 +47,8 @@ export class HomeworkComponent implements OnInit {
         title: this.item.title,
         description: this.item.description,
         status: this.item.status,
-        start_date: this.formatDateSql(startValue),
-        end_date: this.formatDateSql(endValue),
+        start_date: this.dateFormat.formatDateSql(startValue),
+        end_date: this.dateFormat.formatDateSql(endValue),
         school_subject: this.item.school_subject
       }
       this.homeworkService.updateHomework(homework, this.user.id).then((res: HomeworkInterface) => {
@@ -56,8 +59,5 @@ export class HomeworkComponent implements OnInit {
     }
   }
 
-  formatDateSql(fecha: Date) {
-    let stringDate = '' + fecha, iT = stringDate.indexOf('T'), iz = stringDate.indexOf('.'),
-    time = stringDate.slice(iT + 1, iz), date = stringDate.slice(0, iT);  return date + ' ' + time
-  }
+
 }

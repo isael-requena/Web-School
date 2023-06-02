@@ -22,7 +22,6 @@ export class AuthService {
 
   public getAuth(): UserInterface | null {
     try {
-      console.log(this._localStorageService.get<UserInterface | null>('user'));
       return this._localStorageService.get<UserInterface | null>('user');
     } catch (err) {
       return null
@@ -32,7 +31,10 @@ export class AuthService {
   public signUp(data: UserInterface) {
     return new Promise<UserInterface>(async (resolve: any, reject: any) => {
       try {
-        this.http.post(`${this.urlBase}api/auth/signun`, data).subscribe((res: any) => {
+        this.http.post(`${this.urlBase}api/auth/signup`, data,  {
+          observe: 'response',
+          responseType: 'blob',
+        }).subscribe((res: any) => {
           if (res) resolve(res)
           else reject('something is wrong');
         }, error => {

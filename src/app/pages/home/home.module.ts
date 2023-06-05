@@ -7,8 +7,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {HomePage} from './home.page'
 import { HomePageRoutingModule } from './home-routing.module';
 import {HomeworkComponent} from '../../components/homework/homework.page';
-import { NewHomeworkComponent } from '../../components/new-homework/new-homework.page';
+// import { NewHomeworkComponent } from '../../components/new-homework/new-homework.page';
 import { HomeworksDetailsComponent } from '../../components/homeworks-details/homeworks-details.component';
+import { CreateHomeworkComponent } from '../../components/create-homework/create-homework.component'
 
 @NgModule({
   imports: [
@@ -21,8 +22,9 @@ import { HomeworksDetailsComponent } from '../../components/homeworks-details/ho
   declarations: [
     HomePage,
     HomeworkComponent,
-    NewHomeworkComponent,
-    HomeworksDetailsComponent
+    // NewHomeworkComponent,
+    HomeworksDetailsComponent,
+    CreateHomeworkComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

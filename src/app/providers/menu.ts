@@ -22,7 +22,7 @@ export const MENU_OPT: MenuOptInterface[] = [
   {
     id: 4,
     label: 'Perfil',
-    url: 'coming-soon',
+    url: 'profile',
     icon: 'person-outline',
   },
 ]

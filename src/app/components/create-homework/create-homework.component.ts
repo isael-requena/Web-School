@@ -1,37 +1,40 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-
-import { HomeworkService } from '../../services/homework.service';
-import { DateFormatService } from '../../services/date-format.service';
-
 import { HomeworkInterface } from '../../interfaces/Homework';
+import { DateFormatService } from '../../services/date-format.service';
+import { HomeworkService } from '../../services/homework.service';
 
 @Component({
-  selector: 'app-new-homework',
-  templateUrl: './new-homework.page.html',
-  styleUrls: ['./new-homework.page.scss'],
+  selector: 'app-create-homework',
+  templateUrl: './create-homework.component.html',
+  styleUrls: ['./create-homework.component.scss']
 })
-export class NewHomeworkComponent implements OnInit, OnDestroy {
+export class CreateHomeworkComponent implements OnInit, OnDestroy {
+
   @ViewChild('endDate') endDate: any;
   @Output() homeworkEmit = new EventEmitter<HomeworkInterface>()
-  public showFirstStep: boolean = true;
-  public showSecondStep: boolean = false;
+  @Output() closeModalEmit = new EventEmitter<boolean>()
+  @Input() userId: number;
   homeworkForm: FormGroup;
   public nextWeek: Date = new Date()
   public showSpinner: boolean = false;
   public btnSendCounter: number = 0;
+  public formStepCout: number = 1;
+  public isSmallHeight: boolean = (window.screen.availHeight <= 620);
 
   constructor(
     public modalController: ModalController,
     private homeworkService: HomeworkService,
-    public dateFormat: DateFormatService
+    public dateFormat: DateFormatService,
+    private fb: FormBuilder,
   ) {
-    this.homeworkForm = new FormGroup({
-      title: new FormControl('', Validators.required),
-      description: new FormControl(''),
-      status: new FormControl('IN PROGRESS'),
-      schoolSubject: new FormControl('INGLÉS'),
+    this.homeworkForm = this.fb.group({
+      // 'user_id': [this.userId],
+      'title': ['', Validators.required],
+      'description': [null],
+      'status': ['IN PROGRESS'],
+      'schoolSubject': ['INGLÉS'],
     });
     const today = new Date()
     this.nextWeek.setDate(today.getDate() + 7)
@@ -39,7 +42,9 @@ export class NewHomeworkComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     try {
-      // this.initDates();
+      // setInterval(() => {
+      //   console.log(this.homeworkForm.get('title')?.valid)
+      // }, 4000)
     } catch (error) {
       console.error(error)
     }
@@ -56,6 +61,18 @@ export class NewHomeworkComponent implements OnInit, OnDestroy {
     }
   }
 
+  public handleStep(event?: Event): void {
+    // event?.preventDefault();
+    if (this.formStepCout === 1 && this.homeworkForm.get('title')?.valid) {
+      console.log('Pase a formStepCount === 1')
+      this.formStepCout++;
+    } else if (this.formStepCout === 2) {
+      console.log('Pase a formStepCount === 2')
+      this.formStepCout--;
+      this.btnSendCounter = 0;
+    }
+  }
+
   /*   private initDates() {
       try {
         this.homeworkForm.get('startDate')?.setValue(this.formatDate(new Date()))
@@ -65,43 +82,24 @@ export class NewHomeworkComponent implements OnInit, OnDestroy {
       }
     } */
 
-  public handleNextStep(event: Event) {
+  submitHomework(event?: Event) {
     try {
-      // event.preventDefault()
-      console.log(this.homeworkForm?.get('title')?.valid)
-      console.log(this.homeworkForm?.get('title')?.value)
-      console.log(this.showFirstStep)
-      console.log(this.showSecondStep)
-      if (this.homeworkForm?.get('title')?.valid) {
-        console.log('pase')
-        this.showFirstStep = false;
-        this.showSecondStep = true;
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  public handleBackStep() {
-    this.showSecondStep = false;
-    this.showFirstStep = true;
-  }
-
-  submitHomework() {
-    try {
+      event?.preventDefault()
       this.showSpinner = true;
       this.btnSendCounter++;
       if (this.btnSendCounter === 1) {
 
         const homework: HomeworkInterface = {
+          // user_id: this.homeworkForm.get('user_id')?.value,
           title: this.homeworkForm.get('title')?.value,
           description: this.homeworkForm.get('description')?.value,
-          status: this.homeworkForm.get('done')?.value,
+          status: this.homeworkForm.get('status')?.value,
           start_date: this.dateFormat.formatDate(new Date()),
           // homework_end_date: this.homeworkForm.get('endDate')?.value,
           end_date: this.dateFormat.formatDate(this.endDate.value),
           school_subject: this.homeworkForm.get('schoolSubject')?.value
         }
+        console.log(homework)
         this.homeworkService.createHomework(homework).then((Res: HomeworkInterface) => {
           this.showSpinner = false;
           this.homeworkEmit.emit(Res);
@@ -112,5 +110,10 @@ export class NewHomeworkComponent implements OnInit, OnDestroy {
     } catch (error) {
       console.error(error)
     }
+  }
+
+  closeModal() {
+    this.closeModalEmit.emit(true);
+    this.formStepCout = 1
   }
 }

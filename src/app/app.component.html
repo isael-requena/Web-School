@@ -30,8 +30,8 @@
         </ion-text>
       </div>
       <div class="menu_footer">
-        <p>{{user.school_year}} año "{{user.section}}"</p>
-        <p>{{letterService.toUpperAndLowerCase(user.username)}}</p>
+        <p *ngIf="auth.getAuth()?.role === 1">{{user?.school_year}} año "{{user?.section}}"</p>
+        <p [innerHTML]="(auth.getAuth()?.role === 2 ? 'Prof. &nbsp;' : 'Estudiante &nbsp;') + letterService.toUpperAndLowerCase(auth.getAuth()?.username)"></p>
       </div>
     </ion-content>
 

@@ -6,6 +6,7 @@ import { DateFormatService } from '../../services/date-format.service';
 
 import { HomeworkInterface } from '../../interfaces/Homework'
 import { UserInterface } from '../../interfaces/User'
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-homework',
@@ -18,7 +19,8 @@ export class HomeworkComponent implements OnInit {
   @Output() updateEmit = new EventEmitter();
   @Output() deleteEmit = new EventEmitter<HomeworkInterface>();
   @Input() item: HomeworkInterface | undefined;
-  @Input() user: UserInterface;
+  @Input() userId: number;
+  @Input() isTeacher: boolean;
 
   constructor(
     private homeworkService: HomeworkService,
@@ -34,7 +36,18 @@ export class HomeworkComponent implements OnInit {
   }
   onDeleteClick($event:any) {
     $event.preventDefault();
-    this.deleteEmit.emit(this.item)
+    Swal.fire({
+      title: 'Desea eliminar la tarea?',
+      showDenyButton: true,
+      showConfirmButton: false,
+      showCancelButton: true,
+      denyButtonText: `Eliminar`,
+    }).then((result) => {
+      if (result.isDenied) {
+        this.deleteEmit.emit(this.item)
+        Swal.fire('Tarea eliminada', '', 'success')
+      }
+    })
   }
 
   public activeDoneEvent() {
@@ -51,7 +64,7 @@ export class HomeworkComponent implements OnInit {
         end_date: this.dateFormat.formatDateSql(endValue),
         school_subject: this.item.school_subject
       }
-      this.homeworkService.updateHomework(homework, this.user.id).then((res: HomeworkInterface) => {
+      this.homeworkService.updateHomework(homework, this.userId).then((res: HomeworkInterface) => {
         // let element = document.getElementById(`item_${res.id}`)
         // element?.classList.add(res.homework_done ?  'fadeOutDown' : 'fadeOutUp')
         this.updateEmit.emit(res)

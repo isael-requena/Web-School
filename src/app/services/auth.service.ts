@@ -35,7 +35,11 @@ export class AuthService {
           observe: 'response',
           responseType: 'blob',
         }).subscribe((res: any) => {
-          if (res) resolve(res)
+          if (res) {
+            this.login({email: data.email, password: data.password}).then((Res:any) => {
+              Res ? resolve(Res) : reject('something is wrong');
+            })
+          }
           else reject('something is wrong');
         }, error => {
           reject(error);

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import axios from 'axios'
 
 import { HomeworkInterface } from '../interfaces/Homework';
 
@@ -13,6 +14,15 @@ export class HomeworkService {
   constructor(
     public http: HttpClient,
   ) {
+  }
+
+  async getAllHomeworksShort(userId: number): Promise<HomeworkInterface[] | []> {
+    try {
+      const result = await axios.get<HomeworkInterface[]>(`${this.urlBase}api/homeworks/${userId}`)
+      return result.data
+    } catch (error) {
+      return []
+    }
   }
 
   getAllHomeworks(userId: number) {
@@ -63,10 +73,10 @@ export class HomeworkService {
     });
   }
 
-  deleteHomework(id:number | undefined) {
+  deleteHomework(oldTitle: string) {
     return new Promise<HomeworkInterface>(async (resolve: any, reject: any) => {
       try {
-        this.http.delete(`${this.urlBase}api/homeworks/delete/${id}`, {
+        this.http.delete(`${this.urlBase}api/homeworks/delete/${oldTitle}`, {
           observe: 'response',
           responseType: 'blob',
         }).subscribe((res: any) => {

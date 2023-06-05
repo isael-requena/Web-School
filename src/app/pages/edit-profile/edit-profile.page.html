@@ -1,0 +1,226 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="getBack()">
+        <ion-icon slot="icon-only" name="arrow-back-outline" color="light"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title> Perfil </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="profile">
+
+  <div class="main_container">
+    <div class="image_container">
+        <img src="../../../assets/img/profile_fill.png" style="padding: 1%;">
+    </div>
+    <!-- <h2 color="light" class="ion-margin-bottom">Cliente</h2> -->
+    <!--<ion-button icon-left color="secondary">
+        <ion-icon name="photos"></ion-icon>
+        {{ 'app.label.edit' | translate }} / {{ 'app.label.insertavatar' | translate }}
+      </ion-button>-->
+
+    <h2 style="padding: 0 20px;">Datos del {{isTeacher ? 'Profesor' : 'Estudiante'}} </h2>
+    <div>
+      <form [formGroup]="formProfileUser">
+        <ion-list class="form_list_container ion-margin-bottom">
+          <!--                <ion-list-header color="light">
+                  <ion-label class="fw700">Datos del usuario</ion-label>
+                </ion-list-header> -->
+
+          <div class="field_container">
+            <ion-label class="label_title">Nombre completo:</ion-label>
+            <input readonly formControlName="fullName" inputmode="text" placeholder="Nombre completo"
+              value={{fullName.value}}>
+          </div>
+
+          <div class="field_container">
+            <ion-label class="label_title">
+              Email:
+            </ion-label>
+            <!-- <ion-icon class="show-option" name="create"></ion-icon> -->
+            <input readonly formControlName="email" inputmode="email" placeholder="Email" value={{email.value}}>
+            <!--  <ion-input formControlName="email" inputmode="email" placeholder="Correo electrónico" value={{email.value}} disabled>  </ion-input> -->
+          </div>
+
+          <div class="field_container">
+            <ion-label class="label_title">Rol:</ion-label>
+            <input readonly formControlName="role" inputmode="text" placeholder="Rol" value={{role.value}}>
+          </div>
+
+          <div class="field_container" *ngIf="!isTeacher">
+            <ion-label class="label_title">Año cursando:</ion-label>
+            <input readonly formControlName="school_year" inputmode="text" placeholder="Año cursando"
+              value={{school_year.value}}>
+          </div>
+          <!-- <ion-item>
+                  <ion-label color="dark">Tipo de cliente</ion-label>
+                  <ion-select formControlName="tipoCliente" selectedText="{{tipoCliente.value}}"
+                    value="{{tipoCliente.value}}" color="primary" multiple="false" cancelText="Cancelar"
+                    okText="Seleccionar">
+                    <ion-select-option value="Persona Natural">Persona Natural</ion-select-option>
+                    <ion-select-option value="Empresa">Empresa</ion-select-option>
+                  </ion-select>
+                </ion-item> -->
+
+          <div class="field_container" *ngIf="!isTeacher">
+            <ion-label class="label_title">
+              Sección:
+            </ion-label>
+            <!-- <ion-icon class="show-option" name="create"></ion-icon> -->
+            <input class="desabled" formControlName="section" inputmode="text" placeholder="Sección"
+              value={{section.value}}>
+            <!--  <ion-input formControlName="email" inputmode="email" placeholder="Correo electrónico" value={{email.value}} disabled>  </ion-input> -->
+          </div>
+
+          <!-- <ion-item>
+                  <ion-label color="dark" position="stacked">Estado</ion-label>
+                  <ion-select (ionChange)="takeMunicipios(estado.value)" formControlName="estado" color="primary"
+                    multiple="false" cancelText="Cancelar" okText="Seleccionar">
+                    <ion-select-option [value]="state" *ngFor="let state of states">
+                      {{state}}
+                    </ion-select-option>
+                  </ion-select>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label color="dark" position="stacked">Municipio</ion-label>
+                  <ion-select (ionChange)="takeParroquias(municipio.value)" formControlName="municipio" color="primary"
+                    multiple="false" cancelText="Cancelar" okText="Seleccionar">
+                    <ion-select-option [value]="mun.municipio" *ngFor="let mun of municipios">
+                      {{mun.municipio}}
+                    </ion-select-option>
+                  </ion-select>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label color="dark" position="stacked">Parroquia</ion-label>
+                  <ion-select formControlName="parroquia" color="primary" multiple="false" cancelText="Cancelar"
+                    okText="Seleccionar">
+                    <ion-select-option [value]="parroquia" *ngFor="let parroquia of parroquias">
+                      {{parroquia}}
+                    </ion-select-option>
+                  </ion-select>
+                </ion-item> -->
+        </ion-list>
+        <!-- <div class="buttons_con">
+                <ion-button class="btn_save" mode="ios" (click)="ChangeEmail()">Guardar cambios</ion-button>
+                <ion-button class="btn_back" mode="ios" (click)="ChangePhone()">Atrás</ion-button>
+              </div> -->
+
+        <!-- <ion-list class="ion-margin-bottom" *ngIf="this.user.preguntaUno">
+                <ion-list-header>
+                  <ion-label color="primary">Preguntas de seguridad</ion-label>
+                </ion-list-header>
+                <ion-item>
+                  <ion-label color="dark" position="stacked">{{this.user.preguntaUno}}:</ion-label>
+                  <ion-input formControlName="respuestaUno" inputmode="text" value={{respuestaUno.value}}></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label color="dark" position="stacked">{{this.user.preguntaDos}}:</ion-label>
+                  <ion-input formControlName="respuestaDos" inputmode="text" value={{respuestaDos.value}}></ion-input>
+                </ion-item>
+              </ion-list> -->
+
+
+
+        <!--<ion-list>
+                <ion-list-header>
+                  <ion-label color="primary">Control parental</ion-label>
+                </ion-list-header>
+                <ion-item >
+                  <ion-button icon-left size="medium" expand="full" shape="round" color="dark" (click)="pinRegistration()" tappable style="margin-bottom: 10px;">
+                    Crear PIN
+                  </ion-button>
+                </ion-item>
+
+              </ion-list>-->
+
+        <!-- <ion-item>
+                <ion-label color="primary">Control parental</ion-label>
+                <ion-button icon-left size="medium" expand="full" shape="round" color="dark" (click)="pinRegistration()"
+                  tappable style="margin-bottom: 10px;">
+                  Crear PIN
+                </ion-button>
+              </ion-item> -->
+
+      </form>
+
+      <!-- <ion-list class="ion-margin-bottom ion-padding" *ngIf="!this.user.preguntaUno">
+              <form [formGroup]="onSecurityQuestionForm" class="list-form">
+                <ion-text>
+                  <h3 class="ion-no-margin">
+                    Preguntas de seguridad
+                  </h3>
+                </ion-text>
+                <ion-text>
+                  Estas preguntas de seguridad se hacen con el fin de que necesite cambiar su contraseña.
+                </ion-text>
+                <ion-item>
+                  <ion-label>
+                    <ion-text color="primary">Pregunta 1:</ion-text>
+                  </ion-label>
+                  <ion-select formControlName="preguntaUno" color="primary" multiple="false" cancelText="Cancelar"
+                    okText="Seleccionar">
+                    <ion-select-option value="¿Ciudad donde naciste?">¿Ciudad donde naciste?</ion-select-option>
+                    <ion-select-option value="¿Segundo nombre de tu madre?">¿Nombre de tu mascota?</ion-select-option>
+                    <ion-select-option value="¿Nombre de tu mascota?">¿Ciudad favorita?</ion-select-option>
+                    <ion-select-option value="¿Deporte favorito?">¿Deporte favorito?</ion-select-option>
+                    <ion-select-option value="¿Colegio al que asististe?">¿Colegio al que asististe?</ion-select-option>
+                  </ion-select>
+                </ion-item>
+                <ion-item class="ion-no-padding animated fadeInUp" style="margin-bottom:5px;">
+                  <ion-label position="floating">
+                    Respuesta:
+                  </ion-label>
+                  <ion-input color="secondary" type="text" formControlName="respuestaUno"></ion-input>
+                </ion-item>
+                <p class="text08"
+                  *ngIf="onSecurityQuestionForm.get('respuestaUno').touched && onSecurityQuestionForm.get('respuestaUno').hasError('required')">
+                  <ion-text color="medium">
+                    Esta pregunta es requerida.
+                  </ion-text>
+                </p>
+
+                <ion-item>
+                  <ion-label>
+                    <ion-text color="primary">Pregunta 2:</ion-text>
+                  </ion-label>
+                  <ion-select formControlName="preguntaDos" color="primary" multiple="false" cancelText="Cancelar"
+                    okText="Seleccionar">
+                    <ion-select-option value="¿Ciudad donde naciste?"
+                      style="width: 98vw !important; min-width: 300px !important; max-width: 500px !important;">¿Ciudad
+                      donde naciste?</ion-select-option>
+                    <ion-select-option value="¿Segundo nombre de tu madre?">¿Nombre de tu mascota?</ion-select-option>
+                    <ion-select-option value="¿Nombre de tu mascota?">¿Ciudad favorita?</ion-select-option>
+                    <ion-select-option value="¿Deporte favorito?">¿Deporte favorito?</ion-select-option>
+                    <ion-select-option value="¿Colegio al que asististe?">¿Colegio al que asististe?</ion-select-option>
+                  </ion-select>
+                </ion-item>
+                <ion-item class="ion-no-padding animated fadeInUp">
+                  <ion-label position="floating">
+                    Respuesta:
+                  </ion-label>
+                  <ion-input color="secondary" type="text" formControlName="respuestaDos"></ion-input>
+                </ion-item>
+                <p class="text08"
+                  *ngIf="onSecurityQuestionForm.get('respuestaDos').touched && onSecurityQuestionForm.get('respuestaDos').hasError('required')">
+                  <ion-text color="medium">
+                    Esta pregunta es requerida.
+                  </ion-text>
+                </p>
+                <div class="ion-margin-top">
+                  <ion-button icon-left size="medium" expand="full" shape="round" color="dark"
+                    (click)="guardarPreguntas()" [disabled]="!onSecurityQuestionForm.valid" tappable>
+                    Guardar
+                  </ion-button>
+                </div>
+              </form>
+            </ion-list> -->
+      <!-- <ion-button class="ion-no-margin" size="large" expand="full" color="dark" (click)="sendData()">Editar</ion-button> -->
+    </div>
+
+  </div>
+
+</ion-content>

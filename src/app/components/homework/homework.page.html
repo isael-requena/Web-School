@@ -1,5 +1,5 @@
 <div class="item animated" [id]="'item_'+item?.id">
-  <div class="task_container form-check">
+  <div *ngIf="!isTeacher" class="task_container form-check">
     <input class="form-check-input" type="checkbox" value="" [id]="item?.id" [checked]="item?.status === 'COMPLETED'"
       (click)="activeDoneEvent()">
     <label class="form-check-label" [for]="item?.id" (click)="onLabelClick($event)">
@@ -7,11 +7,14 @@
         {{item.title}}
       </p>
     </label>
-    <ion-icon class="icon_close" name="close-outline" (click)="onDeleteClick($event)"></ion-icon>
+  </div>
+
+  <div *ngIf="isTeacher" class="task_container">
+    <ion-label class="teacher_view">
+      <p class="ellipsis" (click)="onLabelClick($event)">
+        {{item.title}}
+      </p>
+      <ion-icon class="icon_close" name="close-outline" (click)="onDeleteClick($event)"></ion-icon>
+    </ion-label>
   </div>
 </div>
-<!-- <div class="checkbox-wrapper-11 item form-check" [id]="'item_'+item?.homework_id">
-  <input class="form-check-input" type="checkbox" value="" [id]="id" [checked]="item?.status" (click)="activeDoneEvent()">
-  <label [for]="id" (click)="onLabelClick($event)"> {{title}}</label>
-
-</div> -->

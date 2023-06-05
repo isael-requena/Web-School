@@ -4,7 +4,8 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class DateFormatService {
-
+  public weeksArray: Array<string> = ["Dom.","lun.","Mart.","Miérc.","Juev.","Vier.","Sáb"];
+  public monthsArray: Array<string> = ["dic.","en.","febr.","mzo","abr","my","jun.","jul.","ag.","sept.","oct.","nov.","dic."]
   constructor() { }
 
   formatDate(date: Date) {
@@ -26,4 +27,12 @@ export class DateFormatService {
     let stringDate = '' + fecha, iT = stringDate.indexOf('T'), iz = stringDate.indexOf('.'),
     time = stringDate.slice(iT + 1, iz), date = stringDate.slice(0, iT);  return date + ' ' + time
   }
+
+
+  formatShortDate(dateString:any) {
+    const date = new Date(dateString)
+    let day = '' + this.weeksArray[date.getDay()+1]+" "+date.getDate()+" "+ this.monthsArray[date.getMonth()+1]
+    return day;
+  }
+
 }

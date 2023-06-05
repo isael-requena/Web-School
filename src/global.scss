@@ -69,9 +69,24 @@ ion-select.bg_white .alert-wrapper {
   right: 0;
   bottom: 0;
 
+  &.backdrop {
+    background: rgba(0, 0, 0, 0.1);
+  }
+  &.height_vh {
+    height: 100vh;
+  }
+  .close_button {
+    all: unset;
+    float: right;
+    font-size: 4vh;
+    margin-top: -2vh;
+    margin-right: -2vh;
+  }
+
   .dialog {
     font-family: Poppins, sans-serif;
-    padding: 0rem 1rem 1rem;
+    // padding: 0rem 1rem 1rem;
+    padding: 3vh;
     background: white;
     max-width: 400px;
     border-radius: 20px;
@@ -80,7 +95,14 @@ ion-select.bg_white .alert-wrapper {
     animation: fadeIn 1s ease both;
     width: 91%;
     height: auto;
-    min-height: 47vh;
+    // min-height: 47vh;
+
+
+    .header_text {
+      font-size: 1.8vh;
+      font-weight: 100;
+      color: var(--ion-color-secondary);
+    }
 
     .dialog_header {
       display: flex;
@@ -88,7 +110,7 @@ ion-select.bg_white .alert-wrapper {
 
       .dialog_title {
         font-weight: 600;
-        font-size: 1.5rem;
+        font-size: 2.6vh;
         padding-bottom: 1rem;
       }
 
@@ -106,9 +128,25 @@ ion-select.bg_white .alert-wrapper {
       }
     }
 
-/*     .dialog_content {
+    .dialog_content {
 
-    } */
+      .row_container {
+        display: flex;
+        font-size: 13px;
+        color: var(--ion-secondary-text-color);
+        justify-content: space-between;
+
+        .column {
+          &.t_end {
+            text-align: end;
+          }
+          p {
+            font-size: 1.4vh;
+            margin-bottom: 0.4vh;
+          }
+        }
+      }
+    }
 
     .dialog_spinner_container {
       width: 100%;
@@ -158,4 +196,13 @@ ion-modal.login_modal {
 }
 .border_red {
   border: 1px solid red;
+}
+.text_ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.responsive_text_size {
+  font-size: 1.8vh;
 }

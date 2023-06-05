@@ -26,7 +26,10 @@ ion-content {
   .main_section {
     display: flex;
     padding: 0 4%;
+    width: 100%;
+    justify-content: space-between;
     .main_title {
+      all: unset;
       strong {
         font-size: xx-large;
         padding: 0;
@@ -215,4 +218,9 @@ ion-fab#trigger-button {
   color: var(--ion-secondary-text-color);
   width: 100%;
   margin: auto;
+}
+
+.new_homework_modal {
+  padding: 1vh !important;
+  overflow: hidden !important;
 }

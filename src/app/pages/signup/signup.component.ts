@@ -75,8 +75,9 @@ export class SignupComponent implements OnInit {
       create_time: this.signUpForm.get('create_time')?.value,
     }
     this.auth.signUp(AUTH_USER).then((Res:any) => {
-      if (Res.status === 200) {
-        console.log(Res)
+      console.log(Res)
+      if (Res && Res.id && !Res.message) {
+
         Swal.fire({
           icon: 'success',
           title: 'Registrado correctamente',
@@ -84,8 +85,19 @@ export class SignupComponent implements OnInit {
           showConfirmButton: false,
           timer: 2500
         }).then(() => {
-          this.navCtrl.navigateForward(['/login']);
+          this.navCtrl.navigateForward(['/home']);
         })
+
+      } else {
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Lo sentimos, intente de nuevo más tarde.',
+          showConfirmButton: false,
+          timer: 2500
+        })
+
       }
     })
   }

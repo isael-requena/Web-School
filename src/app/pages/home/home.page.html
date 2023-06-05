@@ -16,7 +16,11 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <!-- <app-homeworks-details *ngIf="showDetails" (closeEmit)="handleHomeworkWindow(false)"></app-homeworks-details> -->
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <app-homeworks-details *ngIf="showDetails" (closeEmit)="handleShowDetails(false)" (updateEmit)="getHomeworksList()"
+    [homework]="selectedHomework" [userId]="user.id" [isTeacher]="isTeacher"></app-homeworks-details>
   <div id="container">
     <ion-label style="margin: 0 3vh;">Bienvenido {{letterService.toUpperAndLowerCase(letterService.shortNamesFunc(user.username))}} </ion-label>
     <section class="main_section">
@@ -27,12 +31,12 @@
         <ion-label *ngIf="user?.section" class="high_school_info">Sección "{{user?.section}}"</ion-label>
       </div>
     </section>
-    <span *ngIf="homeworkSlide.length && !isTeacher" class="sub-header">POR ENTREGAR ESTA SEMANA:</span>
+    <span *ngIf="homeworkSlide?.length && !isTeacher" class="sub-header">POR ENTREGAR ESTA SEMANA:</span>
 
     <!-- homeworks -->
-    <swiper-container class="animated" *ngIf="!showSlideSpinner && !showMsgeSwiper && homeworkSlide.length && !isTeacher" pager="false" space-between="1" slides-per-view="1.4"
+    <swiper-container class="animated" *ngIf="!showSlideSpinner && !showMsgeSwiper && homeworkSlide?.length && !isTeacher" pager="false" space-between="1" slides-per-view="1.4"
       [ngClass]="{'fadeInUp': !showSlideSpinner, 'fadeOut': showSlideSpinner}" #homeworkSwiper>
-      <swiper-slide class="categories" *ngFor="let homework of homeworkSlide; index as i;">
+      <swiper-slide class="categories" *ngFor="let homework of homeworkSlide; index as i;" (click)="handleShowDetails(true, homework)">
         <div class="categories-buttons business">
           <p class="school_subject text_ellipsis">Inglés</p>
           <span class="categories-name"> {{homework?.title}} </span>
@@ -41,25 +45,25 @@
           </p>
           <span class="row_container">
             <div class="column">
-              {{formatShortDate(homework?.start_date)}}
+              {{dateFormatService.formatShortDate(homework?.start_date)}}
             </div>
               -
             <div class="column">
-              {{formatShortDate(homework?.end_date)}}
+              {{dateFormatService.formatShortDate(homework?.end_date)}}
             </div>
           </span>
         </div>
       </swiper-slide>
     </swiper-container>
 
-    <div *ngIf="showMsgeSwiper" class="info_message_contain">
+    <div *ngIf="showMsgeSwiper && !isTeacher" class="info_message_contain">
       <ion-label class="text_info">
          <ion-icon class="icon-sucess" name="checkmark-circle-outline"></ion-icon>
          {{homeworksSwipMessage}}
         </ion-label>
     </div>
 
-    <div *ngIf="showSlideSpinner" class="spinner_container">
+    <div *ngIf="showSlideSpinner && !isTeacher" class="spinner_container">
       <ion-spinner name="crescent" color="primary"></ion-spinner>
     </div>
 
@@ -67,22 +71,23 @@
     <div class="task-list">
       <!-- This is where the tasks will go -->
       <app-homework *ngFor="let homework of homeworkList;let i=index;trackBy: trackByItems"
-       [item]="homework" [user]="user" (updateEmit)="getHomeworksList()" (showModalEmit)="handleHomeworkWindow(true, $event)"
+       [item]="homework" [userId]="user.id" [isTeacher]="isTeacher" (updateEmit)="getHomeworksList()" (showModalEmit)="handleShowDetails(true, $event)"
        (deleteEmit)="deleteHomework($event)"></app-homework>
 
       <ion-label *ngIf="!homeworkList.length" class="text_info_style">
         No hay Tareas
       </ion-label>
-        <ion-button *ngIf="isTeacher" id="trigger-button" mode="ios">
+        <ion-button *ngIf="isTeacher" mode="ios" id="trigger-button" (click)="showCreateHomework=true;">
           <ion-icon name="add"></ion-icon>
         </ion-button>
 
-      <ion-modal *ngIf="isTeacher" mode="ios" trigger="trigger-button" [isOpen]="false" [breakpoints]="[0.1, 0.5, 1]"
-        [initialBreakpoint]="1">
-        <ng-template>
-          <app-new-homework (homeworkEmit)="addHomework($event)"></app-new-homework>
-        </ng-template>
-      </ion-modal>
+        <div *ngIf="showCreateHomework" class="dialog_container height_vh backdrop new_homework_modal">
+          <div class="dialog">
+            <app-create-homework (homeworkEmit)="addHomework($event)" (closeModalEmit)="showCreateHomework=false;"
+             [userId]="user.id"></app-create-homework>
+          </div>
+        </div>
+
     </div>
   </div>
 </ion-content>

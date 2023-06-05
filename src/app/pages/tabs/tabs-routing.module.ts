@@ -18,6 +18,10 @@ const routes: Routes = [
         pathMatch: 'full'
       },
       {
+        path: 'profile',
+        loadChildren: () => import('../edit-profile/edit-profile.module').then(m => m.EditProfilePageModule)
+      },
+      {
         path: 'coming-soon',
         loadChildren: () => import('../coming-soon/coming-soon.module').then(m => m.ComingSoonPageModule),
         pathMatch: 'full'

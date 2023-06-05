@@ -6,6 +6,7 @@ import { UserInterface } from '../../interfaces/User'
 import { HomeworkService } from '../../services/homework.service';
 import { AuthService } from '../../services/auth.service';
 import { LettersService } from '../../services/letters.service';
+import { DateFormatService } from '../../services/date-format.service';
 
 @Component({
   selector: 'app-home',
@@ -52,15 +53,16 @@ export class HomePage implements OnInit, AfterViewInit {
   public homeworksSwipMessage: string = 'No se encontraron más tareas para esta semana';
   public showMsgeSwiper: boolean = false;
 
-  public weeksArray: any = ["Dom.","lun.","Mart.","Miérc.","Juev.","Vier.","Sáb"];
-  public monthsArray:any = ["dic.","en.","febr.","mzo","abr","my","jun.","jul.","ag.","sept.","oct.","nov.","dic."]
   public user:UserInterface;
   public isTeacher: boolean = false;
+  public showCreateHomework: boolean = false;
+  public selectedHomework: HomeworkInterface | undefined;
 
   constructor(
     private homeworkService: HomeworkService,
     public auth: AuthService,
-    public letterService: LettersService
+    public letterService: LettersService,
+    public dateFormatService: DateFormatService
   ) {
     try {
       this.user = auth.getAuth()
@@ -88,37 +90,44 @@ export class HomePage implements OnInit, AfterViewInit {
     }
   }
 
-  handleHomeworkWindow(showValue:boolean, homework?:HomeworkInterface) {
+  handleShowDetails(showValue:boolean, homework?:HomeworkInterface) {
     this.showDetails = showValue;
+    this.selectedHomework = homework;
   }
 
   addHomework(homework: HomeworkInterface) {
     this.homeworkList.push(homework);
     this.getHomeworksList()
+    this.showCreateHomework = false;
   }
 
-  getHomeworksList() {
+  async getHomeworksList() {
     try {
-      // this.showSlideSpinner = true
-      this.homeworkService.getAllHomeworks(this.user.id).then((homeworks: HomeworkInterface[]) => {
+      this.showSlideSpinner = true
+/*       this.homeworkService.getAllHomeworks(this.user.id).then((homeworks: HomeworkInterface[]) => {
         // homeworks.sort((a, b) => a.homework_done - b.homework_done || new Date(b.homework_start_date).getTime() - new Date(a.homework_start_date).getTime());
         this.homeworkList = homeworks;
+        console.log(this.homeworkList)
         this.homeworkSlide = this.filterByThisWeek(this.homeworkList)
-        // this.showSlideSpinner = false;
+        this.showSlideSpinner = false;
         // this.updateSlides()
-      });
-      console.log(this.homeworkSlide);
+      }); */
+      this.homeworkList = await this.homeworkService.getAllHomeworksShort(this.user.id)
+      this.homeworkSlide = this.filterByThisWeek(this.homeworkList)
+      this.showSlideSpinner = false;
+      if (!this.homeworkList) this.showSlideSpinner = false
     } catch (error) {
       console.error(error)
-      this.homeworksSwipMessage = `No se encontraron más tareas para esta semana`;
-      this.showMsgeSwiper = true;
+      // this.homeworksSwipMessage = `No se encontraron más tareas para esta semana`;
+      // this.showMsgeSwiper = true;
+      this.showSlideSpinner  = false;
     }
   }
 
   deleteHomework(homework: HomeworkInterface | undefined) {
     let element = document.getElementById(`item_${homework?.id}`)
     element?.classList.add('fadeOut');
-    this.homeworkService.deleteHomework(homework?.id).then((res:any) => this.getHomeworksList())
+    this.homeworkService.deleteHomework(homework?.title).then((res:any) => this.getHomeworksList())
   }
 
   updateSlides() {
@@ -144,7 +153,7 @@ export class HomePage implements OnInit, AfterViewInit {
 
       const filtered = homeworks.filter(
         (homework:HomeworkInterface) =>
-        new Date(homework.end_date) >= today && new Date(homework.end_date) <= nextWeek && homework.status === "COMPLETED"
+        new Date(homework.end_date) >= today && new Date(homework.end_date) <= nextWeek && homework.status === "IN PROGRESS"
       )
       if (filtered && filtered.length ) this.showMsgeSwiper = false;
       else {
@@ -161,13 +170,14 @@ export class HomePage implements OnInit, AfterViewInit {
     }
   }
 
-  formatShortDate(dateString:any) {
-    const date = new Date(dateString)
-    let day = '' + this.weeksArray[date.getDay()+1]+" "+date.getDate()+" "+ this.monthsArray[date.getMonth()+1]
-    return day;
-  }
-
   trackByItems(index:number, item:HomeworkInterface):number {
     return item.id;
   }
+
+  async handleRefresh(event) {
+    this.showDetails = false;
+    await this.getHomeworksList()
+    event.target.complete();
+  }
+
 }

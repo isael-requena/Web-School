@@ -1,11 +1,37 @@
-<div class="dialog_container">
-  <div id="dialog">
-    <span>
-      <h2>Escudo Nacional</h2>
-      <button aria-label="close" class="x">❌</button>
+<div class="dialog_container height_vh">
+  <div class="dialog">
+    <button class="close_button" (click)="onCloseEvent()">
+      <ion-icon class="x" name="close-outline"></ion-icon>
+    </button>
+    <span class="header_text">{{homework.school_subject}}</span>
+    <span class="dialog_header">
+      <h2 class="dialog_title">{{ homework.title }}</h2>
     </span>
-    <p>
-      Estimado usuario, se le recuerda que al generar este cupón, usted está siendo conciente de su uso limitado
-    </p>
+    <div class="dialog_content">
+      <p class="responsive_text_size">
+        {{homework.description}}
+      </p>
+      <div *ngIf="!isTeacher" class="checkbox-wrapper-63">
+        <h5>{{homework.status === "COMPLETED" ? 'Completado' : 'En Progreso'}}</h5>
+        <label class="switch">
+          <input type="checkbox" [checked]="homework.status === 'COMPLETED'" (click)="activeDoneEvent()">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <span class="row_container">
+        <div class="column responsive_text_size">
+          <p>
+            Fecha de creación:
+          </p>
+          {{dateFormatService.formatShortDate(homework?.start_date)}}
+        </div>
+        <div class="column t_end responsive_text_size">
+          <p>
+            Fecha de entrega:
+          </p>
+          {{dateFormatService.formatShortDate(homework?.end_date)}}
+        </div>
+      </span>
+    </div>
   </div>
 </div>

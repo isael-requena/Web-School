@@ -1,0 +1,168 @@
+:host {
+  ion-content {
+    // --background: linear-gradient(-135deg, var(--ion-color-medium), var(--ion-color-light))
+    --background: #ffffff;
+  }
+}
+
+/* .main_container {
+  font-family: "Roboto Condensed", sans-serif;
+} */
+
+
+.profile {
+  ion-card {
+    width: 100%;
+    border-radius: 0;
+    background-color: #fff;
+
+    ion-card-content {
+      padding: 32px;
+      background-color: var(--ion-color-primary);
+      color: #fff;
+      text-align: center;
+      // padding-bottom: 28px;
+
+      img {
+        height: 128px;
+        width: 128px;
+        border-radius: 50%;
+        // margin-top: -100px;
+        border: solid 4px #fff;
+        display: inline;
+        box-shadow: 0 0 28px rgba(255, 255, 255, .65);
+      }
+
+      h1 {
+        // font-size: 2.5rem;
+        margin-top: .5rem;
+        // color: #fff;
+      }
+
+      //   h3 {
+      //     font-size: 1.8rem;
+      //     color: #fff;
+      //   }
+
+    }
+  }
+
+  ion-item {
+    ion-input {
+      border-bottom: 1px solid var(--ion-color-tertiary);
+    }
+  }
+
+  ion-buttom {
+    button {
+      margin: 0;
+    }
+  }
+
+  .CustomButton {
+    text-align: left;
+  }
+}
+
+.flex_container {
+  display: flex;
+  padding: 20px 30px;
+  justify-content: space-between;
+
+  ion-label {
+    color: gray;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.form_list_container {
+  padding: 16px;
+  background: white;
+
+  .field_container {
+    display: flex;
+    flex-direction: column;
+    height: 90px;
+    justify-content: space-around;
+    border-bottom: 1.5px solid;
+
+    .label_title {
+      color: black;
+      font-size: 15px;
+    }
+
+    input {
+      all: unset;
+      font-weight: bold;
+      font-size: 18px;
+
+      &.desabled {
+        color: #afafaf;
+      }
+    }
+  }
+}
+
+.btns_row_container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10%;
+
+  ion-button {
+    // --background: #012b5d;
+    --background: linear-gradient(36deg, rgba(69,127,192,1) 18%, rgba(7,195,176,1) 100%) !important;
+    --background-hover: #3f76b4 !important;
+    --background-activated: #3f76b4 !important;
+    --background-focus: #3f76b4 !important;
+
+    &.btn_next {
+      width: calc(100% - 30%);
+    }
+
+    &.btn_cancer {
+      width: calc(100% - 70%);
+    }
+
+    &.btn_full {
+      width: 97%;
+    }
+  }
+}
+
+.margin_top_5 {
+  margin-top: 5% !important;
+}
+
+.input-btn-eye {
+  margin: 0;
+  width: 44px;
+  position: absolute;
+  right: 3%;
+  bottom: 18%;
+  z-index: 2;
+  color: #0e2244;
+}
+
+.bg_transparent {
+  background: transparent;
+
+  &:active {
+    color: black;
+  }
+}
+
+.image_container {
+  display: flex;
+  margin: 3vh 0;
+
+  img {
+    width: 13vh;
+    padding: 1%;
+    margin: auto;
+  }
+}

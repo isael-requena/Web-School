@@ -16,6 +16,7 @@ import { LettersService } from './services/letters.service';
 export class AppComponent {
   appOptMenu: MenuOptInterface[] = MENU_OPT;
   user: UserInterface;
+  public isTeacher: boolean = false;
 
   constructor(
     private router: Router,
@@ -23,6 +24,9 @@ export class AppComponent {
     public letterService: LettersService,
   ) {
     this.user = auth.getAuth()
+    this.isTeacher = this.user?.role === 2 ? true : false;
+    console.log(this.user?.role)
+    console.log(this.isTeacher)
   }
 
   navigate(url: string){

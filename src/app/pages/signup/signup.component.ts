@@ -81,7 +81,6 @@ export class SignupComponent implements OnInit {
         Swal.fire({
           icon: 'success',
           title: 'Registrado correctamente',
-          text: 'Inicie sesión para ingresar',
           showConfirmButton: false,
           timer: 2500
         }).then(() => {

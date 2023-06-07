@@ -1,0 +1,218 @@
+:host {
+  ion-content {
+    // --background: linear-gradient(180deg, rgba(30,154,240,1) 0%, #abebe8 100%);
+    // --background: linear-gradient(180deg, var(--app-blue-1), var(--app-blue-2), var(--app-blue-3), var(--app-blue-4));
+    --background: var(--app-blue-3);
+  }
+}
+
+.ion_footer {
+  height: 16vh;
+  border-top-right-radius: 20%;
+  border-top-left-radius: 20%;
+  overflow: hidden;
+
+  ion-toolbar {
+    height: 100%;
+    --background: linear-gradient(90deg,
+        rgba(245, 245, 240, 1) 0%,
+        rgba(221, 222, 224, 1) 100%);
+
+    .label {
+      font-size: 2vh;
+    }
+  }
+}
+
+.main_container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .content {
+    padding: 30px;
+    background: var(--app-bg-soft);
+    border-radius: 30px;
+    // width: 90%;
+    // height: 90%;
+    width: 90vw;
+    height: 89vh;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .logo_container {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+
+      img {
+        margin: auto 0 !important;
+        border-radius: 50%;
+        width: 8vh;
+        text-align: end;
+      }
+    }
+
+    .main_title {
+      font-size: 3.5vh;
+      padding: 0;
+      letter-spacing: 0.5px;
+      margin: 3vh;
+    }
+
+    .title_h3 {
+      font-size: 2vh;
+      margin: 3vh;
+    }
+
+    .form_holder {
+      display: flex;
+      flex-direction: column;
+      // margin: 5vh 0;
+
+      .email,
+      .password, .form_field {
+        background: hsl(0, 0%, 100%);
+        box-shadow: 0 0 2em hsl(231, 62%, 94%);
+        display: flex;
+        flex-direction: column;
+        gap: 0.5vh;
+        border-radius: 20px;
+        color: hsl(0, 0%, 30%);
+        padding: 2vh;
+        margin-top: 4vh;
+
+        .row {
+          display: grid;
+          grid-auto-flow: column;
+          align-items: center;
+          grid-template-columns: 2.8vh calc(100% - 2.8vh);
+          width: 100%;
+        }
+
+        ion-icon {
+          color: hsl(0, 0%, 30%);
+          margin-bottom: -0.2em;
+          font-size: 1.8vh;
+          padding: 0 1vh;
+        }
+
+        label {
+          font-size: 1.8vh;
+        }
+
+        input {
+          outline: none;
+          border: none;
+          background: white;
+          font-size: 1.8vh;
+
+          &::placeholder {
+            color: hsl(0deg 0% 0%);
+            font-size: 0.9em;
+          }
+        }
+      }
+
+      .btn_submit {
+        margin-top: 6vh;
+        font-size: 1.75vh;
+        --border-radius: 40px;
+      }
+    }
+    .form_footer {
+      display: flex;
+      flex-direction: column;
+
+      ion-label {
+        text-align: center;
+        margin: 1vh 0;
+        font-size: 1.75vh;
+      }
+
+      .sign_up_btn {
+        width: 74%;
+        --background: transparent;
+        --border-radius: 40px;
+        font-weight: 400;
+        border-radius: 40px;
+        border: 1px solid var(--app-blue-3);
+        color: var(--app-blue-3);
+        font-size: 1.75vh;
+        margin: auto;
+        --background-hover: var(--app-blue-3);
+        --background-activated: var(--app-blue-3);
+        --background-focused: var(--app-blue-3);
+        &:focus, &:active, &:hover {
+          color: white;
+        }
+      }
+    }
+  }
+}
+
+.color_danger {
+  color: var(--ion-color-danger-tint);
+}
+.form_msge {
+  margin: 1.4vh 2vh 0;
+  font-size: 1.55vh;
+}
+.step_btns_container {
+  width: 100%;
+  display: grid;
+  margin-top: 2.5vh;
+  &.columns {
+    grid-template-columns: 20% calc(80% - 10px);
+    gap: 10px;
+  }
+
+  .next_btn, .back_btn {
+    --border-radius: 40px;
+    font-size: 1.6vh;
+  }
+}
+
+.title_responsive {
+  font-size: 2.8vh;
+}
+
+.cards_div {
+  width: 100%;
+  /* display: flex; */
+  display: grid;
+  grid-auto-flow: column;
+  height: 22vh;
+  grid-template-columns: 50% 50%;
+  @media only screen and (max-width: 474px) {
+    grid-auto-flow: row;
+    height: 37vh;
+    grid-template-columns: none;
+    grid-template-rows: 50% 50%;
+  }
+
+  .card_select {
+    margin: 1vh;
+    overflow: hidden;
+    border-radius: 9px;
+    position: relative;
+
+    .overlay {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #05183673;
+
+      ion-label {
+        color: white;
+        font-size: 2vh;
+      }
+    }
+  }
+}

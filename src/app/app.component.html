@@ -1,3 +1,47 @@
-<ion-app>
-  <ion-router-outlet></ion-router-outlet>
+<ion-app *ngIf="auth.getAuth();">
+  <ion-split-pane contentId="menu-content">
+  <ion-menu side="start" menuId="first" contentId="menu-content">
+    <ion-header>
+      <ion-toolbar color="primary" class="toolbar_bg">
+        <ion-title class="ion-padding">Menú</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="bg-profile">
+      <div class="list_container">
+        <ion-menu-toggle auto-hide="false" *ngFor="let p of appOptMenu">
+        <div (click)="navigate(p.url)">
+          <ion-icon slot="start" [name]="p.icon"></ion-icon>
+          <ion-label>
+            {{p.label}}
+          </ion-label>
+        </div>
+      </ion-menu-toggle>
+      <ion-menu-toggle auto-hide="false">
+        <div (click)="auth.logout()">
+          <ion-icon name="log-out-outline"></ion-icon>
+          <ion-label>Cerrar sesión</ion-label>
+        </div>
+      </ion-menu-toggle>
+    </div>
+
+      <div class="version-container color_app_blue">
+        <ion-text style="font-size: 10px;">
+          V1.0.5
+        </ion-text>
+      </div>
+      <div class="menu_footer">
+        <p *ngIf="auth.getAuth()?.role === 1">{{user?.school_year}} año "{{user?.section}}"</p>
+        <p [innerHTML]="(auth.getAuth()?.role === 2 ? 'Prof. &nbsp;' : 'Estudiante &nbsp;') + letterService.toUpperAndLowerCase(auth.getAuth()?.username)"></p>
+      </div>
+    </ion-content>
+
+  </ion-menu>
+
+  <ion-router-outlet id="menu-content"></ion-router-outlet>
+
+</ion-split-pane>
+</ion-app>
+
+<ion-app *ngIf="!auth.getAuth();">
+  <ion-router-outlet id="menu-content"></ion-router-outlet>
 </ion-app>

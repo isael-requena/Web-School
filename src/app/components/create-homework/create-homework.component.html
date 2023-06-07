@@ -1,0 +1,50 @@
+<ion-header class="ion-no-border" [translucent]="true">
+    <div class="close-outline">
+      <ion-icon name="close-outline" (click)="closeModal()"></ion-icon>
+    </div>
+</ion-header>
+<ion-content>
+  <h1 class="main_title" [ngClass]="formStepCout === 2 && isSmallHeight ? 'display_none' : 'display_block'">
+    Nueva Tarea
+  </h1>
+  <form [formGroup]="homeworkForm"  (submit)="submitHomework($event)">
+
+    <div class="animated container top_customized" id="first_form"
+      [ngClass]="{'fadeInUp show_visibility': formStepCout === 1,'fadeOutUp hide_visibility': formStepCout === 2}">
+      <input class="input_field" autofocus="true" formControlName="title" placeholder="Escriba el título" >
+      <p class="margin_0 color_danger" *ngIf="(homeworkForm.get('title')?.dirty || homeworkForm.get('title')?.touched) && homeworkForm.get('title')?.hasError('required')">
+        El título es requerido
+      </p>
+      <input class="input_field input_little" formControlName="description" placeholder="Escriba una descripción"
+        #description>
+      <div class="btns_container centered">
+        <ion-button mode="ios" type="button" class="next_button" (click)="handleStep()" [disabled]="!homeworkForm.get('title')?.valid">
+          Siguiente
+        </ion-button>
+      </div>
+    </div>
+    <div class="animated container top_customized"
+      [ngClass]="{'fadeInUp show_visibility': formStepCout === 2,'fadeOutUp hide_visibility': formStepCout === 1}">
+
+      <!-- <ion-label for="school_subject">Escoge una materia</ion-label>
+      <select id="school_subject" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+        formControlName="schoolSubject">
+        <option selected value="ghc">G.H.C.</option>
+        <option value="ciencias_de_la_tierra">Ciencias de la tierra</option>
+        <option value="ingles">Inglés</option>
+        <option value="fpsn">F.P.S.N</option>
+      </select> -->
+      <ion-datetime class="date_form_picker" mode="ios" [value]="nextWeek.toJSON()" #endDate>
+        <span slot="title">Seleccione la fecha de entrega</span>
+        <span slot="time-label">Tiempo</span>
+      </ion-datetime>
+      <div class="btns_container space_between" id="second_form">
+        <ion-icon type="button" class="back_icon" name="arrow-back" (click)="handleStep($event)"></ion-icon>
+        <ion-button mode="ios" class="next_button" type="submit" [disabled]="homeworkForm.invalid">
+          Enviar tarea &nbsp; <ion-icon name="chevron-up-outline"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+  </form>
+
+</ion-content>

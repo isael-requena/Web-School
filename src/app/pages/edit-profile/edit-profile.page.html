@@ -1,0 +1,61 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button (click)="getBack()">
+        <ion-icon slot="icon-only" name="arrow-back-outline" color="light"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title> Perfil </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="profile">
+
+  <div class="main_container">
+    <div class="image_container">
+        <img src="../../../assets/img/profile_fill.png" style="padding: 1%;">
+    </div>
+
+    <h2 style="padding: 0 20px;">Datos del {{isTeacher ? 'Profesor' : 'Estudiante'}} </h2>
+    <div>
+      <form [formGroup]="formProfileUser">
+        <ion-list class="form_list_container ion-margin-bottom">
+
+          <div class="field_container">
+            <ion-label class="label_title">Nombre completo:</ion-label>
+            <input readonly formControlName="fullName" inputmode="text" placeholder="Nombre completo"
+              value={{fullName?.value}}>
+          </div>
+
+          <div class="field_container">
+            <ion-label class="label_title">
+              Email:
+            </ion-label>
+            <input readonly formControlName="email" inputmode="email" placeholder="Email" value={{email?.value}}>
+          </div>
+
+          <div class="field_container">
+            <ion-label class="label_title">Rol:</ion-label>
+            <input readonly formControlName="role" inputmode="text" placeholder="Rol" value={{role?.value}}>
+          </div>
+
+          <div class="field_container" *ngIf="!isTeacher">
+            <ion-label class="label_title">Año cursando:</ion-label>
+            <input readonly formControlName="school_year" inputmode="text" placeholder="Año cursando"
+              value={{school_year?.value}}>
+          </div>
+
+          <div class="field_container" *ngIf="!isTeacher">
+            <ion-label class="label_title">
+              Sección:
+            </ion-label>
+            <input class="desabled" formControlName="section" inputmode="text" placeholder="Sección"
+              value={{section?.value}}>
+          </div>
+        </ion-list>
+      </form>
+    </div>
+
+  </div>
+
+</ion-content>

@@ -1,0 +1,93 @@
+<ion-header class="ion-no-border" [translucent]="true">
+  <ion-toolbar mode="md">
+    <ion-buttons slot="start">
+      <ion-menu-button class="menu-btn"></ion-menu-button>
+    </ion-buttons>
+    <ion-label> Tareas </ion-label>
+    <ion-buttons slot="end">
+      <ion-button class="search-btn">
+        <ion-icon slot="icon-only" name="search"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon slot="icon-only" name="notifications-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <app-homeworks-details *ngIf="showDetails" (closeEmit)="handleShowDetails(false)" (updateEmit)="getHomeworksList()"
+    [homework]="selectedHomework" [userId]="user?.id" [isTeacher]="isTeacher"></app-homeworks-details>
+  <div id="container">
+    <ion-label style="margin: 0 3vh;">Bienvenido {{letterService.toUpperAndLowerCase(letterService.shortNamesFunc(user?.username))}} </ion-label>
+    <section class="main_section">
+      <ion-title class="main_title"> <strong>José Martí <br> Web!</strong> </ion-title>
+      <div class="logo_section">
+        <div class="high_school_badge bg_image"></div>
+        <ion-label *ngIf="user?.school_year" class="high_school_info">{{user?.school_year}} año</ion-label>
+        <ion-label *ngIf="user?.section" class="high_school_info">Sección "{{user?.section}}"</ion-label>
+      </div>
+    </section>
+    <span *ngIf="homeworkSlide?.length && !isTeacher" class="sub-header">POR ENTREGAR ESTA SEMANA:</span>
+
+    <!-- homeworks -->
+    <swiper-container class="animated" *ngIf="!showSlideSpinner && !showMsgeSwiper && homeworkSlide?.length && !isTeacher" pager="false" space-between="1" slides-per-view="1.4"
+      [ngClass]="{'fadeInUp': !showSlideSpinner, 'fadeOut': showSlideSpinner}" #homeworkSwiper>
+      <swiper-slide class="categories" *ngFor="let homework of homeworkSlide; index as i;" (click)="handleShowDetails(true, homework)">
+        <div class="categories-buttons business">
+          <p class="school_subject text_ellipsis">Inglés</p>
+          <span class="categories-name"> {{homework?.title}} </span>
+          <p class="homework_description">
+            {{homework?.description}}
+          </p>
+          <span class="row_container">
+            <div class="column">
+              {{dateFormatService.formatShortDate(homework?.start_date)}}
+            </div>
+              -
+            <div class="column">
+              {{dateFormatService.formatShortDate(homework?.end_date)}}
+            </div>
+          </span>
+        </div>
+      </swiper-slide>
+    </swiper-container>
+
+    <div *ngIf="showMsgeSwiper && !isTeacher" class="info_message_contain">
+      <ion-label class="text_info">
+         <ion-icon class="icon-sucess" name="checkmark-circle-outline"></ion-icon>
+         {{homeworksSwipMessage}}
+        </ion-label>
+    </div>
+
+    <div *ngIf="showSlideSpinner && !isTeacher" class="spinner_container">
+      <ion-spinner name="crescent" color="primary"></ion-spinner>
+    </div>
+
+    <span class="todays-header">{{isTeacher ? 'TAREAS DE LOS ESTUDIANTES' : 'TAREAS PENDIENTES'}}</span>
+    <div class="task-list">
+      <!-- This is where the tasks will go -->
+      <app-homework *ngFor="let homework of homeworkList;let i=index;trackBy: trackByItems"
+       [item]="homework" [userId]="user?.id" [isTeacher]="isTeacher" (updateEmit)="getHomeworksList()" (showModalEmit)="handleShowDetails(true, $event)"
+       (deleteEmit)="deleteHomework($event)"></app-homework>
+
+      <ion-label *ngIf="!homeworkList.length" class="text_info_style">
+        No hay Tareas
+      </ion-label>
+        <ion-button *ngIf="isTeacher" mode="ios" id="trigger-button" (click)="showCreateHomework=true;">
+          <ion-icon name="add"></ion-icon>
+        </ion-button>
+
+        <div *ngIf="showCreateHomework" class="dialog_container height_vh backdrop new_homework_modal">
+          <div class="dialog">
+            <app-create-homework (homeworkEmit)="addHomework($event)" (closeModalEmit)="showCreateHomework=false;"
+             [userId]="user?.id"></app-create-homework>
+          </div>
+        </div>
+
+    </div>
+  </div>
+</ion-content>

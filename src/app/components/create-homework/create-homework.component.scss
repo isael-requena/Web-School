@@ -1,0 +1,215 @@
+ion-content {
+  height: 67vh !important;
+  --background: white;
+}
+ion-toolbar {
+  --background: white;
+}
+.close-outline,
+.rounded {
+  float: right;
+  border: 1px solid var(--ion-color-step-750);
+  border-radius: 50%;
+  height: 5vh;
+  width: 5vh;
+  text-align: center;
+  margin-right: 2;
+  padding: 0.6vh;
+  margin-top: 2vh;
+
+  ion-icon {
+    color: var(--ion-close-button);
+    font-size: 3.4vh;
+  }
+
+  ion-icon.radio-personal {
+    color: var(--td-blue);
+  }
+
+  ion-icon.radio-business {
+    color: var(--td-magenta);
+  }
+}
+.input_field {
+  width: 100%;
+  padding: 0 12px !important;
+  background: white;
+  border: none;
+  border-bottom: 1px solid;
+  margin: 4% 0;
+  height: 6.8vh;
+  font-size: 2.6vh;
+}
+.input_little {
+  font-size: 2.1vh;
+}
+
+.container {
+  position: absolute;
+  padding: 1vh;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  // height: 40%;
+
+  .rounded-rectangle {
+    border: 1px solid var(--ion-color-step-750);
+    border-radius: 2rem;
+    padding: 0.9rem 1.2rem;
+    margin: 5vh 0;
+    margin-right: 1rem;
+    color: var(--ion-secondary-text-color);
+    font-size: x-large;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    span {
+      font-size: large;
+      margin-left: 1rem;
+      margin-right: 0.5rem;
+    }
+
+    ion-icon {
+      color: var(--ion-tertiary-text-color);
+    }
+  }
+
+  .rounded {
+    margin-top: 0;
+  }
+
+  table {
+    width: auto;
+  }
+
+  .bottom-icons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    font-size: x-large;
+    color: var(--ion-tertiary-text-color);
+    margin: 6vh 1vh;
+  }
+}
+
+ion-fab-button {
+  --border-radius: 4.5rem;
+  width: 11rem;
+  font-size: medium;
+  letter-spacing: 0.5px;
+
+  ion-icon {
+    font-size: larger;
+  }
+}
+
+ion-fab {
+  bottom: 17vh;
+  right: calc(35px + var(--ion-safe-area-right, 0px));
+}
+// [type="date"] {
+//   background:#fff url(https://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/calendar_2.png)  97% 50% no-repeat ;
+// }
+// [type="date"]::-webkit-inner-spin-button {
+//   display: none;
+// }
+// [type="date"]::-webkit-calendar-picker-indicator {
+//   opacity: 0;
+// }
+
+label {
+  display: block;
+}
+// input[type="date"] {
+//     background-color: white;
+//     padding: 3px 5px;
+//     margin: 20px auto;
+//     width: 100%;
+//     height: 60px;
+//     border: none;
+//     border-bottom: 1px solid;
+// }
+.hide_visibility {
+  opacity: 0;
+  visibility: hidden;
+  display: none;
+}
+.show_visibility {
+  opacity: 1;
+  visibility: visible;
+  display: initial;
+}
+.main_title {
+  margin-left: 20px;
+  font-size: 2.8vh;
+}
+.btns_container {
+  display: flex;
+  margin-top: 7%;
+  &#second_form {
+    @media only screen and (max-height: 655px) {
+      margin-top: 0 !important;
+    }
+  }
+  &.centered {
+    justify-content: center;
+    .next_button {
+      width: 80%;
+      --border-radius: 45px;
+      font-size: 2vh;
+    }
+
+  }
+  &.space_between {
+    justify-content: space-between;
+    align-items: center;
+    .next_button {
+      width: 80%;
+      --border-radius: 45px;
+      max-width: 290px;
+    }
+    ion-icon {
+      font-size: 1.9rem;
+    }
+  }
+}
+
+.color_danger {
+  color: var(--ion-color-danger-tint);
+  font-size: 1.7vh;
+}
+.margin_0 {
+  margin: 0;
+}
+.h_57 {
+  height: 57% !important;
+}
+
+.date_form_picker {
+  margin: auto;
+  width: 100%;
+  @media only screen and (max-height: 651px) {
+    height: 351px;
+  }
+}
+.top_customized {
+  top: 0%;
+  // @media only screen and (max-height: 651px) {
+  //   top: 4%;
+  // }
+  &#first_form {
+    top: 27%;
+  }
+}
+
+.border_red {
+  border: 1px solid red;
+}
+.display_block {
+  display: block;
+}
+.display_none {
+  display: none;
+}
